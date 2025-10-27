@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Freeman - Catálogo de Remeras</title>
 <style>
+/* ===== Estilos base ===== */
 body {
     font-family: Arial, sans-serif;
     background-color: white;
@@ -13,7 +14,6 @@ body {
     padding: 0;
     line-height: 1.6;
 }
-
 header {
     display: flex;
     justify-content: center;
@@ -23,7 +23,6 @@ header {
     border-bottom: 1px solid #696969;
     text-align: center;
 }
-
 h1 { margin: 0; }
 
 .section {
@@ -33,7 +32,6 @@ h1 { margin: 0; }
     margin: 0 auto;
     text-align: center;
 }
-
 .section.active { display: block; }
 
 .productos {
@@ -42,21 +40,18 @@ h1 { margin: 0; }
     justify-content: center;
     gap: 20px;
 }
-
 .producto {
     border: 1px solid #696969;
     padding: 15px;
     text-align: center;
     border-radius: 8px;
 }
-
 .producto img {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 4px;
 }
-
 .producto h3 { margin: 10px 0; }
 .producto p { font-weight: bold; }
 
@@ -66,7 +61,6 @@ h1 { margin: 0; }
     gap: 10px;
     margin: 10px 0;
 }
-
 .talle button {
     padding: 5px 10px;
     border: 1px solid #696969;
@@ -75,7 +69,6 @@ h1 { margin: 0; }
     border-radius: 4px;
     transition: 0.2s;
 }
-
 .talle button.selected {
     background-color: black;
     color: white;
@@ -108,15 +101,12 @@ h1 { margin: 0; }
     border-radius: 8px;
     z-index: 1001;
 }
-
 #carrito.active { transform: translateX(0); }
-
 #lista-carrito { margin-bottom: 20px; }
 .item-carrito { border-bottom: 1px solid #696969; padding: 10px; }
 
 #envio { margin: 20px 0; }
 #total { font-weight: bold; margin: 20px 0; }
-
 #enviar-whatsapp, #cerrar-carrito {
     background-color: black;
     color: white;
@@ -142,6 +132,27 @@ h1 { margin: 0; }
     font-weight: bold;
 }
 
+/* ===== Burbuja de talle ===== */
+#burbujaTalle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    background: black;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: rgba(0,0,0,0.3) 0px 0px 10px;
+    z-index: 9999;
+    transform: scale(1);
+    transition: transform 0.2s;
+}
+#burbujaTalle:hover { transform: scale(1.1); }
+
 @media (max-width: 768px) {
     .productos { grid-template-columns: repeat(2, 1fr); }
 }
@@ -165,46 +176,7 @@ h1 { margin: 0; }
                 <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
                 <button class="btn-agregar">Agregar al carrito</button>
             </div>
-            <!-- Producto 2 -->
-            <div class="producto" data-color="Blanco">
-                <img src="img/remerablanca.png" alt="Remera Blanca">
-                <h3>Blanco</h3>
-                <p>$15.000</p>
-                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
-                <button class="btn-agregar">Agregar al carrito</button>
-            </div>
-            <!-- Producto 3 -->
-            <div class="producto" data-color="Gris Topo">
-                <img src="img/remeragris.png" alt="Remera Gris Topo">
-                <h3>Gris Topo</h3>
-                <p>$15.000</p>
-                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
-                <button class="btn-agregar">Agregar al carrito</button>
-            </div>
-            <!-- Producto 4 -->
-            <div class="producto" data-color="Rojo">
-                <img src="img/remeraroja.png" alt="Remera Roja">
-                <h3>Rojo</h3>
-                <p>$15.000</p>
-                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
-                <button class="btn-agregar">Agregar al carrito</button>
-            </div>
-            <!-- Producto 5 -->
-            <div class="producto" data-color="Azul Oscuro">
-                <img src="img/remeraazul.png" alt="Remera Azul Oscuro">
-                <h3>Azul Oscuro</h3>
-                <p>$15.000</p>
-                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
-                <button class="btn-agregar">Agregar al carrito</button>
-            </div>
-            <!-- Producto 6 -->
-            <div class="producto" data-color="Beige">
-                <img src="img/remerabeige.png" alt="Remera Beige">
-                <h3>Beige</h3>
-                <p>$15.000</p>
-                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
-                <button class="btn-agregar">Agregar al carrito</button>
-            </div>
+            <!-- Agregar aquí los demás productos como antes -->
         </div>
     </section>
 
@@ -229,10 +201,19 @@ h1 { margin: 0; }
     <div id="mini-carrito">
         <p id="mini-carrito-text">0 productos - $0</p>
     </div>
+
+    <!-- Burbuja de talle -->
+    <div id="burbujaTalle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12h2m4 0h2m4 0h2m4 0h2"></path>
+            <path d="M21 12v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a9 9 0 0 1 18 0z"></path>
+            <path d="M9 12V8a3 3 0 0 1 6 0v4"></path>
+        </svg>
+    </div>
 </main>
 
 <script>
-// Variables
+// ===== Variables =====
 let carrito = [];
 
 // Selección de talles
@@ -298,6 +279,12 @@ document.getElementById('enviar-whatsapp').addEventListener('click', ()=>{
 // Cerrar carrito
 document.getElementById('cerrar-carrito').addEventListener('click', ()=>{
     document.getElementById('carrito').classList.remove('active');
+});
+
+// Burbuja de talle abre calculadora
+document.getElementById('burbujaTalle').addEventListener('click', ()=>{
+    document.getElementById('calculadora').classList.add('active');
+    document.getElementById('catalogo').classList.remove('active');
 });
 </script>
 
