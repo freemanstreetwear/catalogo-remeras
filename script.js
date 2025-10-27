@@ -7,12 +7,7 @@ const talles = [
     { talle: 'XXL', ancho: 57, largo: 76 }
 ];
 
-// Carrito
 let carrito = [];
-
-// Navegación
-document.getElementById('ver-carrito').addEventListener('click', mostrarCarrito);
-document.getElementById('cerrar-carrito').addEventListener('click', ocultarCarrito);
 
 // Selección de talles con botón
 document.querySelectorAll('.talle').forEach(div => {
@@ -24,9 +19,9 @@ document.querySelectorAll('.talle').forEach(div => {
     });
 });
 
-// Agregar al carrito
+// Agregar productos al carrito
 document.querySelectorAll('.btn-agregar').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', e => {
         const producto = e.target.closest('.producto');
         const color = producto.dataset.color;
         const talle = producto.querySelector('.talle button.selected')?.textContent;
@@ -35,11 +30,11 @@ document.querySelectorAll('.btn-agregar').forEach(btn => {
             return;
         }
         agregarAlCarrito(color, talle);
-        mostrarCarrito(); // abrir al agregar
+        actualizarMiniCarrito();
     });
 });
 
-// Funciones del carrito
+// Funciones
 function agregarAlCarrito(color, talle) {
     const existente = carrito.find(item => item.color === color && item.talle === talle);
     if (existente) {
@@ -47,44 +42,54 @@ function agregarAlCarrito(color, talle) {
     } else {
         carrito.push({ color, talle, cantidad: 1 });
     }
-    actualizarCarrito();
-}
-
-function actualizarCarrito() {
-    const lista = document.getElementById('lista-carrito');
-    lista.innerHTML = '';
-    if (carrito.length === 0) {
-        lista.innerHTML = '<p>Tu carrito está vacío</p>';
-    } else {
-        carrito.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'item-carrito';
-            div.innerHTML = `<p>Remera ${item.color}, talle ${item.talle} x${item.cantidad}</p>`;
-            lista.appendChild(div);
-        });
-    }
-    calcularTotal();
 }
 
 function calcularTotal() {
-    const envioSelect = document.getElementById('tipo-envio');
-    const envio = envioSelect.value;
-    let costoEnvio = 0;
-    if (envio.startsWith('domicilio-')) {
-        costoEnvio = parseInt(envio.split('-')[1]);
-    }
     const subtotal = carrito.reduce((sum, item) => sum + (15000 * item.cantidad), 0);
-    const total = subtotal + costoEnvio;
-    document.getElementById('total').textContent = `Total: $${total.toLocaleString()}`;
+    return subtotal;
 }
 
+// Barra inferior
+const miniCarrito = document.getElementById('mini-carrito');
+const miniCarritoText = document.getElementById('mini-carrito-text');
+
+function actualizarMiniCarrito() {
+    const totalProductos = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+    const totalPrecio = calcularTotal();
+    miniCarritoText.textContent = `${totalProductos} productos - $${totalPrecio.toLocaleString()}`;
+}
+
+// Al clickear la barra, se abre el carrito
+miniCarrito.addEventListener('click', () => {
+    mostrarCarrito();
+});
+
+// Carrito completo
+const carritoDiv = document.getElementById('carrito');
+const listaCarrito = document.getElementById('lista-carrito');
+
 function mostrarCarrito() {
-    document.getElementById('carrito').classList.add('active');
+    carritoDiv.classList.add('active');
     actualizarCarrito();
 }
 
 function ocultarCarrito() {
-    document.getElementById('carrito').classList.remove('active');
+    carritoDiv.classList.remove('active');
+}
+
+function actualizarCarrito() {
+    listaCarrito.innerHTML = '';
+    if (carrito.length === 0) {
+        listaCarrito.innerHTML = '<p>Tu carrito está vacío</p>';
+    } else {
+        carrito.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'item-carrito';
+            div.textContent = `Remera ${item.color}, talle ${item.talle} x${item.cantidad}`;
+            listaCarrito.appendChild(div);
+        });
+    }
+    document.getElementById('total').textContent = `Total: $${calcularTotal().toLocaleString()}`;
 }
 
 // WhatsApp
@@ -96,32 +101,12 @@ document.getElementById('enviar-whatsapp').addEventListener('click', () => {
     carrito.forEach(item => {
         mensaje += `- Remera ${item.color}, talle ${item.talle} x${item.cantidad}\n`;
     });
-    mensaje += `Envío: ${envio}\n`;
-    const total = document.getElementById('total').textContent.split(': ')[1];
-    mensaje += `Total: ${total}`;
+    mensaje += `Envío: ${envio}\nTotal: $${calcularTotal().toLocaleString()}`;
     const url = `https://wa.me/3518583166?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 });
 
-// Calculadora de talles
-document.getElementById('calcular-talle').addEventListener('click', () => {
-    const ancho = parseInt(document.getElementById('ancho').value);
-    const largo = parseInt(document.getElementById('largo').value);
-    if (isNaN(ancho) || isNaN(largo)) {
-        document.getElementById('resultado-talle').textContent = 'Ingresa valores válidos.';
-        return;
-    }
-    let talleRecomendado = 'No recomendado';
-    let minDiff = Infinity;
-    talles.forEach(t => {
-        const diff = Math.abs(t.ancho - ancho) + Math.abs(t.largo - largo);
-        if (diff < minDiff) {
-            minDiff = diff;
-            talleRecomendado = t.talle;
-        }
-    });
-    document.getElementById('resultado-talle').textContent = `Talle recomendado: ${talleRecomendado}`;
+// Cerrar carrito
+document.getElementById('cerrar-carrito').addEventListener('click', () => {
+    ocultarCarrito();
 });
-
-// Inicializar
-document.getElementById('catalogo').classList.add('active');
