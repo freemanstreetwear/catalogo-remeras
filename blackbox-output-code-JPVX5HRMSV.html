@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freeman - Catálogo de Remeras</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Freeman</h1>
+        <button id="ver-carrito" class="btn-fixed">Ver Carrito</button>
+    </header>
+
+    <main>
+        <section id="catalogo" class="section active">
+            <h2>Catálogo de Remeras</h2>
+            <div class="productos">
+                <div class="producto" data-color="Negro">
+                    <img src="https://source.unsplash.com/300x300/?black-tshirt" alt="Remera Negra">
+                    <h3>Negro</h3>
+                    <p>$15.000</p>
+                    <select class="talle">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select>
+                    <button class="btn-agregar">Agregar al carrito</button>
+                </div>
+                <div class="producto" data-color="Blanco">
+                    <img src="https://source.unsplash.com/300x300/?white-tshirt" alt="Remera Blanca">
+                    <h3>Blanco</h3>
+                    <p>$15.000</p>
+                    <select class="talle">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select>
+                    <button class="btn-agregar">Agregar al carrito</button>
+                </div>
+                <div class="producto" data-color="Gris topo">
+                    <img src="https://source.unsplash.com/300x300/?gray-tshirt" alt="Remera Gris Topo">
+                    <h3>Gris Topo</h3>
+                    <p>$15.000</p>
+                    <select class="talle">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select>
+                    <button class="btn-agregar">Agregar al carrito</button>
+                </div>
+                <div class="producto" data-color="Rojo">
+                    <img src="https://source.unsplash.com/300x300/?red-tshirt" alt="Remera Roja">
+                    <h3>Rojo</h3>
+                    <p>$15.000</p>
+                    <select class="talle">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select>
+                    <button class="btn-agregar">Agregar al carrito</button>
+                </div>
+                <div class="producto" data-color="Azul oscuro">
+                    <img src="https://source.unsplash.com/300x300/?dark-blue-tshirt" alt="Remera Azul Oscuro">
+                    <h3>Azul Oscuro</h3>
+                    <p>$15.000</p>
+                    <select class="talle">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select>
+                    <button class="btn-agregar">Agregar al carrito</button>
+                </div>
+                <div class="producto" data-color="Beige">
+                    <img src="https://source.unsplash.com/300x300/?beige-tshirt" alt="Remera Beige">
+                    <h3>Beige</h3>
+                    <p>$15.000</p>
+                    <select class="talle">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select>
+                    <button class="btn-agregar">Agregar al carrito</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="calculadora" class="section">
+            <h2>Calculá tu talle</h2>
+            <p>Ingresa tus medidas en cm para obtener una recomendación de talle.</p>
+            <label>Ancho de pecho (cm): <input type="number" id="ancho" min="40" max="60"></label>
+            <label>Largo del cuerpo (cm): <input type="number" id="largo" min="65" max="80"></label>
+            <button id="calcular-talle">Calcular</button>
+            <p id="resultado-talle"></p>
+        </section>
+
+        <section id="carrito" class="section">
+            <h2>Carrito de Compras</h2>
+            <div id="lista-carrito"></div>
+            <div id="envio">
+                <label>Tipo de envío:
+                    <select id="tipo-envio">
+                        <option value="domicilio-1000">A domicilio ($1000)</option>
+                        <option value="domicilio-2000">A domicilio ($2000)</option>
+                        <option value="domicilio-3000">A domicilio ($3000)</option>
+                        <option value="retiro">Retiro en domicilio (San Alberto 1336, Barrio San Vicente - sin costo)</option>
+                    </select>
+                </label>
+            </div>
+            <p id="total">Total: $0</p>
+            <button id="enviar-whatsapp">Enviar pedido por WhatsApp</button>
+            <button id="cerrar-carrito">Cerrar</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

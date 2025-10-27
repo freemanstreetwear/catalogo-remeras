@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-bottom: 1px solid #696969;
+}
+
+h1 {
+    margin: 0;
+}
+
+.btn-fixed {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.section {
+    display: none;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section.active {
+    display: block;
+}
+
+.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.producto {
+    border: 1px solid #696969;
+    padding: 15px;
+    text-align: center;
+}
+
+.producto img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.producto h3 {
+    margin: 10px 0;
+}
+
+.producto p {
+    font-weight: bold;
+}
+
+.talle {
+    margin: 10px 0;
+    padding: 5px;
+}
+
+.btn-agregar {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#calculadora {
+    text-align: center;
+}
+
+#calculadora label {
+    display: block;
+    margin: 10px 0;
+}
+
+#calculadora input {
+    padding: 5px;
+    margin-left: 10px;
+}
+
+#resultado-talle {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#carrito {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    border-left: 1px solid #696969;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s;
+}
+
+#carrito.active {
+    transform: translateX(0);
+}
+
+#lista-carrito {
+    margin-bottom: 20px;
+}
+
+.item-carrito {
+    border-bottom: 1px solid #696969;
+    padding: 10px;
+}
+
+#envio {
+    margin: 20px 0;
+}
+
+#total {
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+#enviar-whatsapp, #cerrar-carrito {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    margin: 5px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .productos {
+        grid-template-columns: 1fr;
+    }
+    #carrito {
+        width: 100%;
+    }
+    .btn-fixed {
+        position: static;
+        margin: 10px;
+    }
+}
