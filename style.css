@@ -53,12 +53,14 @@ h1 {
     border: 1px solid #696969;
     padding: 15px;
     text-align: center;
+    border-radius: 8px;
 }
 
 .producto img {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    border-radius: 4px;
 }
 
 .producto h3 {
@@ -70,8 +72,24 @@ h1 {
 }
 
 .talle {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
     margin: 10px 0;
-    padding: 5px;
+}
+
+.talle button {
+    padding: 5px 10px;
+    border: 1px solid #696969;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.talle button.selected {
+    background-color: black;
+    color: white;
 }
 
 .btn-agregar {
@@ -81,6 +99,8 @@ h1 {
     padding: 10px;
     cursor: pointer;
     width: 100%;
+    margin-top: 10px;
+    border-radius: 4px;
 }
 
 #calculadora {
@@ -113,6 +133,7 @@ h1 {
     overflow-y: auto;
     transform: translateX(100%);
     transition: transform 0.3s;
+    padding: 20px;
 }
 
 #carrito.active {
@@ -126,6 +147,16 @@ h1 {
 .item-carrito {
     border-bottom: 1px solid #696969;
     padding: 10px;
+    position: relative;
+}
+
+.item-carrito::after {
+    content: "+";
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: black;
+    font-weight: bold;
 }
 
 #envio {
@@ -145,12 +176,13 @@ h1 {
     cursor: pointer;
     width: 100%;
     margin: 5px 0;
+    border-radius: 4px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .productos {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
     #carrito {
         width: 100%;
