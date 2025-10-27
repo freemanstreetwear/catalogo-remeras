@@ -498,6 +498,95 @@ document.addEventListener("DOMContentLoaded", function(){
   </div>
 </div>
 
+<!-- 🔹 CUADRO DE NUESTRA HISTORIA -->
+<div id="cuadroHistoria" style="
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px 30px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    font-family: 'Poppins', sans-serif;
+    color: #111;
+    line-height: 1.6;
+    text-align: center;
+">
+  <h3 style="margin-top:0; font-size:22px; font-weight:600;">Nuestra Historia</h3>
+  <p style="margin:15px 0; font-size:16px; color:#333;">
+    Comenzamos con una sola remera, pero con mucha pasión por la calidad y el diseño.  
+    Esa primera prenda nos inspiró a fabricar cada vez más remeras lisas, cuidando los detalles, los materiales y ofreciendo un buen precio a quienes buscan comodidad y estilo.  
+    Con el tiempo, nuestra colección creció, pero seguimos centrados en lo que nos define: ofrecer remeras lisas de calidad, cómodas y duraderas, pensadas para quienes valoran la sencillez y el buen gusto.  
+  </p>
+  <p style="margin:10px 0 0; font-size:16px; font-weight:500; color:#555;">
+    Cada remera es parte de nuestra historia y de nuestro compromiso con nuestros clientes.
+  </p>
+</div>
+
+
+<!-- 🔹 NOTIFICACIONES DE ENCARGOS -->
+<div id="notificaciones" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 250px;
+    z-index: 9999;
+    font-family: 'Poppins', sans-serif;
+"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const nombres = [
+    "Sofía", "Martín", "Lucía", "Matías", "Valentina", "Federico", "Camila", "Nicolás", "Julieta", "Bruno",
+    "Agustina", "Diego", "Florencia", "Tomás", "Martina", "Facundo", "Antonella", "Leandro", "Paula", "Gonzalo",
+    "Isabella", "Benjamín", "Micaela", "Santiago", "Victoria", "Emiliano", "Luciano", "Francesca", "Juan", "Sabrina",
+    "Brenda", "Ignacio", "Carolina", "Maximiliano", "Camila", "Gastón", "Ana", "Julián", "Marina", "Ezequiel"
+  ];
+
+  const colores = ["Negro", "Blanco", "Gris topo", "Rojo", "Azul oscuro", "Beige"];
+  const talles = ["S", "M", "L", "XL", "XXL"];
+  const contenedor = document.getElementById("notificaciones");
+
+  function crearNotificacion() {
+    const nombre = nombres[Math.floor(Math.random() * nombres.length)];
+    const color = colores[Math.floor(Math.random() * colores.length)];
+    const talle = talles[Math.floor(Math.random() * talles.length)];
+
+    const div = document.createElement("div");
+    div.textContent = `Ha encargado 1 remera ${talle} ${color} - ${nombre}`;
+    div.style.background = "rgba(0,0,0,0.7)";
+    div.style.color = "#fff";
+    div.style.padding = "8px 12px";
+    div.style.borderRadius = "8px";
+    div.style.marginTop = "10px";
+    div.style.opacity = "0";
+    div.style.transition = "opacity 0.5s, transform 0.5s";
+    div.style.transform = "translateX(100%)";
+
+    contenedor.appendChild(div);
+
+    // Animación de entrada
+    setTimeout(() => {
+      div.style.opacity = "1";
+      div.style.transform = "translateX(0)";
+    }, 100);
+
+    // Desaparece después de 6 segundos
+    setTimeout(() => {
+      div.style.opacity = "0";
+      div.style.transform = "translateX(100%)";
+      setTimeout(() => contenedor.removeChild(div), 500);
+    }, 6000);
+  }
+
+  // Crear notificación cada cierto intervalo (3-8 segundos aleatorio)
+  setInterval(() => {
+    crearNotificacion();
+  }, Math.floor(Math.random() * 5000) + 3000);
+});
+</script>
+
+
+
 
 
 <!-- 🔹 BURBUJA FLOTANTE -->
