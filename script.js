@@ -29,6 +29,9 @@ document.querySelectorAll('.btn-agregar').forEach(btn => {
         const color = producto.dataset.color;
         const talle = producto.querySelector('.talle').value;
         agregarAlCarrito(color, talle);
+
+        // Abrir automáticamente el carrito al agregar un producto
+        mostrarCarrito();
     });
 });
 
@@ -46,7 +49,7 @@ function agregarAlCarrito(color, talle) {
 }
 
 // =======================
-// Actualizar carrito en pantalla
+// Actualizar carrito en pantalla y total en tiempo real
 // =======================
 function actualizarCarrito() {
     const lista = document.getElementById('lista-carrito');
@@ -63,6 +66,7 @@ function actualizarCarrito() {
         });
     }
 
+    // Actualizar el total en tiempo real
     calcularTotal();
 }
 
