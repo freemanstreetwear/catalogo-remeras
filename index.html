@@ -1,83 +1,298 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freeman - Catálogo de Remeras</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freeman - Catálogo de Remeras</title>
+<style>
+/* ======================= */
+/* CSS - Estilos generales */
+/* ======================= */
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-bottom: 1px solid #696969;
+    text-align: center;
+}
+
+h1 { margin: 0; }
+
+.section {
+    display: none;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section.active { display: block; }
+
+.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-content: center;
+    gap: 20px;
+}
+
+.producto {
+    border: 1px solid #696969;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.producto img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.producto h3 { margin: 10px 0; }
+.producto p { font-weight: bold; }
+
+.talle {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.talle button {
+    padding: 5px 10px;
+    border: 1px solid #696969;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.talle button.selected {
+    background-color: black;
+    color: white;
+}
+
+.btn-agregar {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+#calculadora { text-align: center; }
+#calculadora label { display: block; margin: 10px 0; }
+#calculadora input { padding: 5px; margin-left: 10px; }
+#resultado-talle { margin-top: 20px; font-weight: bold; }
+
+#carrito {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 90%;
+    max-width: 350px;
+    height: 90%;
+    top: 5%;
+    right: 5%;
+    background-color: white;
+    border-left: 1px solid #696969;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s;
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1001;
+}
+
+#carrito.active { transform: translateX(0); }
+
+#lista-carrito { margin-bottom: 20px; }
+.item-carrito { border-bottom: 1px solid #696969; padding: 10px; }
+
+#envio { margin: 20px 0; }
+#total { font-weight: bold; margin: 20px 0; }
+
+#enviar-whatsapp, #cerrar-carrito {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+/* Barra inferior flotante */
+#mini-carrito {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .productos { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Freeman</h1>
-    </header>
 
-    <main>
-        <section id="catalogo" class="section active">
-            <h2>Catálogo de Remeras</h2>
-            <div class="productos">
-                <div class="producto" data-color="Negro">
-                    <img src="img/remeranegra.png" alt="Remera Negra" class="product-img">
-                    <h3>Negro</h3>
-                    <p>$15.000</p>
-                    <div class="talle">
-                        <button>S</button>
-                        <button>M</button>
-                        <button>L</button>
-                        <button>XL</button>
-                        <button>XXL</button>
-                    </div>
-                    <button class="btn-agregar">Agregar al carrito</button>
+<header>
+    <h1>Freeman</h1>
+</header>
+
+<main>
+    <section id="catalogo" class="section active">
+        <h2>Catálogo de Remeras</h2>
+        <div class="productos">
+            <!-- Producto 1 -->
+            <div class="producto" data-color="Negro">
+                <img src="img/remeranegra.png" alt="Remera Negra">
+                <h3>Negro</h3>
+                <p>$15.000</p>
+                <div class="talle">
+                    <button>S</button>
+                    <button>M</button>
+                    <button>L</button>
+                    <button>XL</button>
+                    <button>XXL</button>
                 </div>
-                <div class="producto" data-color="Blanco">
-                    <img src="img/remerablanca.png" alt="Remera Blanca" class="product-img">
-                    <h3>Blanco</h3>
-                    <p>$15.000</p>
-                    <div class="talle">
-                        <button>S</button>
-                        <button>M</button>
-                        <button>L</button>
-                        <button>XL</button>
-                        <button>XXL</button>
-                    </div>
-                    <button class="btn-agregar">Agregar al carrito</button>
+                <button class="btn-agregar">Agregar al carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="producto" data-color="Blanco">
+                <img src="img/remerablanca.png" alt="Remera Blanca">
+                <h3>Blanco</h3>
+                <p>$15.000</p>
+                <div class="talle">
+                    <button>S</button>
+                    <button>M</button>
+                    <button>L</button>
+                    <button>XL</button>
+                    <button>XXL</button>
                 </div>
-                <!-- Agregar los demás productos igual -->
+                <button class="btn-agregar">Agregar al carrito</button>
             </div>
-        </section>
-
-        <section id="calculadora" class="section">
-            <h2>Calculá tu talle</h2>
-            <p>Ingresa tus medidas en cm para obtener una recomendación de talle.</p>
-            <label>Ancho de pecho (cm): <input type="number" id="ancho" min="40" max="60"></label>
-            <label>Largo del cuerpo (cm): <input type="number" id="largo" min="65" max="80"></label>
-            <button id="calcular-talle">Calcular</button>
-            <p id="resultado-talle"></p>
-        </section>
-
-        <section id="carrito" class="section">
-            <h2>Carrito de Compras</h2>
-            <div id="lista-carrito"></div>
-            <div id="envio">
-                <label>Tipo de envío:
-                    <select id="tipo-envio">
-                        <option value="domicilio-1000">A domicilio ($1000)</option>
-                        <option value="domicilio-2000">A domicilio ($2000)</option>
-                        <option value="domicilio-3000">A domicilio ($3000)</option>
-                        <option value="retiro">Retiro en domicilio (San Alberto 1336, Barrio San Vicente - sin costo)</option>
-                    </select>
-                </label>
-            </div>
-            <p id="total">Total: $0</p>
-            <button id="enviar-whatsapp">Enviar pedido por WhatsApp</button>
-            <button id="cerrar-carrito">Cerrar</button>
-        </section>
-
-        <!-- Barra inferior flotante -->
-        <div id="mini-carrito">
-            <p id="mini-carrito-text">0 productos - $0</p>
         </div>
+    </section>
 
-    </main>
+    <section id="carrito" class="section">
+        <h2>Carrito de Compras</h2>
+        <div id="lista-carrito"></div>
+        <div id="envio">
+            <label>Tipo de envío:
+                <select id="tipo-envio">
+                    <option value="domicilio-1000">A domicilio ($1000)</option>
+                    <option value="domicilio-2000">A domicilio ($2000)</option>
+                    <option value="domicilio-3000">A domicilio ($3000)</option>
+                    <option value="retiro">Retiro en domicilio (sin costo)</option>
+                </select>
+            </label>
+        </div>
+        <p id="total">Total: $0</p>
+        <button id="enviar-whatsapp">Enviar pedido por WhatsApp</button>
+        <button id="cerrar-carrito">Cerrar</button>
+    </section>
+
+    <!-- Barra inferior flotante -->
+    <div id="mini-carrito">
+        <p id="mini-carrito-text">0 productos - $0</p>
+    </div>
+</main>
+
+<script>
+// Datos de talles
+const talles = ['S','M','L','XL','XXL'];
+let carrito = [];
+
+// Selección de talles
+document.querySelectorAll('.talle').forEach(div => {
+    div.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            div.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        });
+    });
+});
+
+// Agregar al carrito
+document.querySelectorAll('.btn-agregar').forEach(btn => {
+    btn.addEventListener('click', e => {
+        const producto = e.target.closest('.producto');
+        const color = producto.dataset.color;
+        const talle = producto.querySelector('.talle button.selected')?.textContent;
+        if(!talle) { alert('Selecciona un talle primero'); return; }
+        const existente = carrito.find(item => item.color===color && item.talle===talle);
+        if(existente) existente.cantidad++;
+        else carrito.push({color, talle, cantidad:1});
+        actualizarMiniCarrito();
+    });
+});
+
+// Mini carrito
+const miniCarrito = document.getElementById('mini-carrito');
+const miniCarritoText = document.getElementById('mini-carrito-text');
+
+function actualizarMiniCarrito(){
+    const totalProductos = carrito.reduce((sum,item)=>sum+item.cantidad,0);
+    const totalPrecio = carrito.reduce((sum,item)=>sum+item.cantidad*15000,0);
+    miniCarritoText.textContent = `${totalProductos} productos - $${totalPrecio.toLocaleString()}`;
+}
+
+// Abrir carrito al clickear barra
+miniCarrito.addEventListener('click', ()=>{ document.getElementById('carrito').classList.add('active'); actualizarCarrito(); });
+
+// Carrito completo
+function actualizarCarrito(){
+    const listaCarrito = document.getElementById('lista-carrito');
+    listaCarrito.innerHTML='';
+    if(carrito.length===0) listaCarrito.innerHTML='<p>Tu carrito está vacío</p>';
+    else carrito.forEach(item=>{
+        const div=document.createElement('div');
+        div.className='item-carrito';
+        div.textContent=`Remera ${item.color}, talle ${item.talle} x${item.cantidad}`;
+        listaCarrito.appendChild(div);
+    });
+    document.getElementById('total').textContent=`Total: $${carrito.reduce((sum,item)=>sum+item.cantidad*15000,0).toLocaleString()}`;
+}
+
+// WhatsApp
+document.getElementById('enviar-whatsapp').addEventListener('click', ()=>{
+    if(carrito.length===0) return;
+    const envio=document.getElementById('tipo-envio').selectedOptions[0].text;
+    let mensaje='Hola! Quiero hacer este pedido:\n';
+    carrito.forEach(item=>mensaje+=`- Remera ${item.color}, talle ${item.talle} x${item.cantidad}\n`);
+    mensaje+=`Envío: ${envio}\nTotal: $${carrito.reduce((sum,item)=>sum+item.cantidad*15000,0).toLocaleString()}`;
+    window.open(`https://wa.me/3518583166?text=${encodeURIComponent(mensaje)}`,'_blank');
+});
+
+// Cerrar carrito
+document.getElementById('cerrar-carrito').addEventListener('click', ()=>{ document.getElementById('carrito').classList.remove('active'); });
+</script>
+
 </body>
 </html>
