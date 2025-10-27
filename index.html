@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Freeman - Catálogo de Remeras</title>
 <style>
-/* ======================= */
-/* CSS - Estilos generales */
-/* ======================= */
 body {
     font-family: Arial, sans-serif;
     background-color: white;
@@ -95,20 +92,13 @@ h1 { margin: 0; }
     border-radius: 4px;
 }
 
-#calculadora { text-align: center; }
-#calculadora label { display: block; margin: 10px 0; }
-#calculadora input { padding: 5px; margin-left: 10px; }
-#resultado-talle { margin-top: 20px; font-weight: bold; }
-
 #carrito {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 5%;
+    right: 5%;
     width: 90%;
     max-width: 350px;
     height: 90%;
-    top: 5%;
-    right: 5%;
     background-color: white;
     border-left: 1px solid #696969;
     overflow-y: auto;
@@ -138,7 +128,6 @@ h1 { margin: 0; }
     border-radius: 4px;
 }
 
-/* Barra inferior flotante */
 #mini-carrito {
     position: fixed;
     bottom: 10px;
@@ -153,7 +142,6 @@ h1 { margin: 0; }
     font-weight: bold;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .productos { grid-template-columns: repeat(2, 1fr); }
 }
@@ -174,13 +162,7 @@ h1 { margin: 0; }
                 <img src="img/remeranegra.png" alt="Remera Negra">
                 <h3>Negro</h3>
                 <p>$15.000</p>
-                <div class="talle">
-                    <button>S</button>
-                    <button>M</button>
-                    <button>L</button>
-                    <button>XL</button>
-                    <button>XXL</button>
-                </div>
+                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
                 <button class="btn-agregar">Agregar al carrito</button>
             </div>
             <!-- Producto 2 -->
@@ -188,13 +170,39 @@ h1 { margin: 0; }
                 <img src="img/remerablanca.png" alt="Remera Blanca">
                 <h3>Blanco</h3>
                 <p>$15.000</p>
-                <div class="talle">
-                    <button>S</button>
-                    <button>M</button>
-                    <button>L</button>
-                    <button>XL</button>
-                    <button>XXL</button>
-                </div>
+                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
+                <button class="btn-agregar">Agregar al carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="producto" data-color="Gris Topo">
+                <img src="img/remeragris.png" alt="Remera Gris Topo">
+                <h3>Gris Topo</h3>
+                <p>$15.000</p>
+                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
+                <button class="btn-agregar">Agregar al carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="producto" data-color="Rojo">
+                <img src="img/remeraroja.png" alt="Remera Roja">
+                <h3>Rojo</h3>
+                <p>$15.000</p>
+                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
+                <button class="btn-agregar">Agregar al carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="producto" data-color="Azul Oscuro">
+                <img src="img/remeraazul.png" alt="Remera Azul Oscuro">
+                <h3>Azul Oscuro</h3>
+                <p>$15.000</p>
+                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
+                <button class="btn-agregar">Agregar al carrito</button>
+            </div>
+            <!-- Producto 6 -->
+            <div class="producto" data-color="Beige">
+                <img src="img/remerabeige.png" alt="Remera Beige">
+                <h3>Beige</h3>
+                <p>$15.000</p>
+                <div class="talle"><button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button></div>
                 <button class="btn-agregar">Agregar al carrito</button>
             </div>
         </div>
@@ -218,57 +226,54 @@ h1 { margin: 0; }
         <button id="cerrar-carrito">Cerrar</button>
     </section>
 
-    <!-- Barra inferior flotante -->
     <div id="mini-carrito">
         <p id="mini-carrito-text">0 productos - $0</p>
     </div>
 </main>
 
 <script>
-// Datos de talles
-const talles = ['S','M','L','XL','XXL'];
+// Variables
 let carrito = [];
 
 // Selección de talles
-document.querySelectorAll('.talle').forEach(div => {
-    div.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', () => {
-            div.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+document.querySelectorAll('.talle').forEach(div=>{
+    div.querySelectorAll('button').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+            div.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
             btn.classList.add('selected');
         });
     });
 });
 
 // Agregar al carrito
-document.querySelectorAll('.btn-agregar').forEach(btn => {
-    btn.addEventListener('click', e => {
-        const producto = e.target.closest('.producto');
-        const color = producto.dataset.color;
-        const talle = producto.querySelector('.talle button.selected')?.textContent;
-        if(!talle) { alert('Selecciona un talle primero'); return; }
-        const existente = carrito.find(item => item.color===color && item.talle===talle);
+document.querySelectorAll('.btn-agregar').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+        const producto=e.target.closest('.producto');
+        const color=producto.dataset.color;
+        const talle=producto.querySelector('.talle button.selected')?.textContent;
+        if(!talle){ alert('Selecciona un talle primero'); return; }
+        const existente=carrito.find(item=>item.color===color && item.talle===talle);
         if(existente) existente.cantidad++;
-        else carrito.push({color, talle, cantidad:1});
+        else carrito.push({color,talle,cantidad:1});
         actualizarMiniCarrito();
     });
 });
 
 // Mini carrito
-const miniCarrito = document.getElementById('mini-carrito');
-const miniCarritoText = document.getElementById('mini-carrito-text');
+const miniCarritoText=document.getElementById('mini-carrito-text');
+document.getElementById('mini-carrito').addEventListener('click', ()=>{
+    document.getElementById('carrito').classList.add('active');
+    actualizarCarrito();
+});
 
 function actualizarMiniCarrito(){
-    const totalProductos = carrito.reduce((sum,item)=>sum+item.cantidad,0);
-    const totalPrecio = carrito.reduce((sum,item)=>sum+item.cantidad*15000,0);
-    miniCarritoText.textContent = `${totalProductos} productos - $${totalPrecio.toLocaleString()}`;
+    const totalProductos=carrito.reduce((sum,item)=>sum+item.cantidad,0);
+    const totalPrecio=carrito.reduce((sum,item)=>sum+item.cantidad*15000,0);
+    miniCarritoText.textContent=`${totalProductos} productos - $${totalPrecio.toLocaleString()}`;
 }
 
-// Abrir carrito al clickear barra
-miniCarrito.addEventListener('click', ()=>{ document.getElementById('carrito').classList.add('active'); actualizarCarrito(); });
-
-// Carrito completo
 function actualizarCarrito(){
-    const listaCarrito = document.getElementById('lista-carrito');
+    const listaCarrito=document.getElementById('lista-carrito');
     listaCarrito.innerHTML='';
     if(carrito.length===0) listaCarrito.innerHTML='<p>Tu carrito está vacío</p>';
     else carrito.forEach(item=>{
@@ -291,7 +296,9 @@ document.getElementById('enviar-whatsapp').addEventListener('click', ()=>{
 });
 
 // Cerrar carrito
-document.getElementById('cerrar-carrito').addEventListener('click', ()=>{ document.getElementById('carrito').classList.remove('active'); });
+document.getElementById('cerrar-carrito').addEventListener('click', ()=>{
+    document.getElementById('carrito').classList.remove('active');
+});
 </script>
 
 </body>
