@@ -311,7 +311,6 @@ document.getElementById('cerrar-carrito').addEventListener('click', ()=>{
   </svg>
 </div>
 
-
 <!-- 🔹 PANEL DEL WIDGET -->
 <section id="widgetTalleSeccion" style="
   position: fixed;
@@ -368,34 +367,26 @@ document.addEventListener("DOMContentLoaded", function(){
   const cerrar = document.getElementById("cerrarTalle");
   let visible = false;
 
-  // Animación hover burbuja
-  burbuja.addEventListener("mouseover", ()=> burbuja.style.transform="scale(1.1)");
-  burbuja.addEventListener("mouseout", ()=> burbuja.style.transform="scale(1)");
-
   // Mostrar/Ocultar widget
   burbuja.addEventListener("click", ()=>{
     visible = !visible;
     if(visible){
       widgetSeccion.style.display="block";
-      setTimeout(()=>{
-        widgetSeccion.style.opacity="1";
-        widgetSeccion.style.transform="translateY(0)";
-      }, 50);
+      setTimeout(()=>{ widgetSeccion.style.opacity="1"; widgetSeccion.style.transform="translateY(0)"; },50);
     } else {
       widgetSeccion.style.opacity="0";
       widgetSeccion.style.transform="translateY(20px)";
-      setTimeout(()=>{ widgetSeccion.style.display="none"; }, 400);
+      setTimeout(()=>{ widgetSeccion.style.display="none"; },400);
     }
   });
-
   cerrar.addEventListener("click", ()=>{
     visible=false;
     widgetSeccion.style.opacity="0";
     widgetSeccion.style.transform="translateY(20px)";
-    setTimeout(()=>{ widgetSeccion.style.display="none"; }, 400);
+    setTimeout(()=>{ widgetSeccion.style.display="none"; },400);
   });
 
-  // Variables
+  // Inputs
   const alturaInput=document.getElementById("wAltura");
   const pesoInput=document.getElementById("wPeso");
   const alturaVal=document.getElementById("wAlturaVal");
@@ -411,20 +402,24 @@ document.addEventListener("DOMContentLoaded", function(){
   const botones=document.getElementsByClassName("wContextBtn");
   for(let i=0;i<botones.length;i++){
     botones[i].onclick=function(){
-      for(let j=0;j<botones.length;j++){ 
-        botones[j].style.background="#fff"; 
-        botones[j].style.color="#111"; 
-      }
+      for(let j=0;j<botones.length;j++){ botones[j].style.background="#fff"; botones[j].style.color="#111"; }
       this.style.background="#a8d5a2";
       this.style.color="#111";
       contextura=this.getAttribute("data-contextura");
     };
   }
 
+  // Tabla clásica de talles
+  const tallesClasicos = [
+    {talle:"S", minAlt:150,maxAlt:170, minPeso:45,maxPeso:60},
+    {talle:"M", minAlt:165,maxAlt:180, minPeso:60,maxPeso:75},
+    {talle:"L", minAlt:175,maxAlt:190, minPeso:70,maxPeso:90},
+    {talle:"XL", minAlt:180,maxAlt:200, minPeso:85,maxPeso:105},
+    {talle:"XXL", minAlt:190,maxAlt:210, minPeso:100,maxPeso:120}
+  ];
+
   // Calcular talle
   document.getElementById("wCalcular").onclick=function(){
-    const alt=parseFloat(alturaInput.value);
-    const peso=parseFloat(pesoInput.value);
     if(!contextura){
       resultado.style.color="#f33";
       resultado.innerText="Por favor seleccioná tu contextura.";
@@ -432,29 +427,36 @@ document.addEventListener("DOMContentLoaded", function(){
       return;
     }
 
-    let talle="", consejo="";
-    if(contextura==="pequeña"){
-      if(peso<60) talle="S";
-      else if(peso<70){ talle="S-M"; consejo="Podés elegir S o M según prefieras más holgado."; }
-      else if(peso<80) talle="M";
-      else talle="L";
-    } else if(contextura==="media"){
-      if(peso<65) talle="M";
-      else if(peso<75){ talle="M-L"; consejo="Podés elegir M o L según prefieras más holgado."; }
-      else if(peso<90) talle="L";
-      else talle="XL";
-    } else if(contextura==="grande"){
-      if(peso<75) talle="L";
-      else if(peso<90){ talle="L-XL"; consejo="Podés elegir L o XL según prefieras más holgado."; }
-      else talle="XL";
+    const alt=parseInt(alturaInput.value);
+    const peso=parseInt(pesoInput.value);
+    let recomendado = "";
+
+    // Filtra talles que coincidan con altura y peso
+    let posibles = tallesClasicos.filter(t=>{
+      return alt>=t.minAlt && alt<=t.maxAlt && peso>=t.minPeso && peso<=t.maxPeso;
+    });
+
+    // Ajuste según contextura
+    if(posibles.length>0){
+      if(contextura==="pequeña") recomendado = posibles[0].talle;
+      else if(contextura==="media") recomendado = posibles[Math.floor(posibles.length/2)].talle;
+      else if(contextura==="grande") recomendado = posibles[posibles.length-1].talle;
+    } else {
+      // Si no hay coincidencia exacta, selecciona el más cercano por altura
+      let closest = tallesClasicos.reduce((prev,curr)=>{
+        let distCurr=Math.abs(curr.minAlt-alt)+Math.abs(curr.minPeso-peso);
+        let distPrev=Math.abs(prev.minAlt-alt)+Math.abs(prev.minPeso-peso);
+        return distCurr<distPrev?curr:prev;
+      });
+      recomendado = closest.talle;
     }
 
     resultado.style.color="#111";
-    resultado.innerHTML="Tu talle aproximado: <strong>"+talle+"</strong> (oversize)"+(consejo? "<br>"+consejo : "");
+    resultado.innerHTML="Tu talle aproximado: <strong>"+recomendado+"</strong>";
 
-    // Oculta inputs y muestra resultado
+    // Mostrar resultado
     const widget=document.getElementById("widgetTalle");
-    widget.style.transition="opacity 0.8s ease";
+    widget.style.transition="opacity 0.5s ease";
     widget.style.opacity="0";
     setTimeout(()=>{
       for(let i=0;i<widget.children.length;i++){
@@ -462,10 +464,12 @@ document.addEventListener("DOMContentLoaded", function(){
       }
       widget.style.opacity="1";
       resultadoContainer.style.display="flex";
-    },800);
+    },500);
   };
 });
 </script>
+
+
 
 </body>
 </html>
