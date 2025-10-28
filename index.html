@@ -1,133 +1,351 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Freeman | Catálogo de Remeras Lisas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freeman - Catálogo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <!-- CSS Globales y de Componentes -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/header.css">
-  <link rel="stylesheet" href="css/productos.css">
-  <link rel="stylesheet" href="css/carrito.css">
-  <link rel="stylesheet" href="css/calculadora.css">
-  <link rel="stylesheet" href="css/metricas.css">
-  <link rel="stylesheet" href="css/historia.css">
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+    color: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 120px;
+  }
+
+  header {
+    width: 100%;
+    text-align: center;
+    padding: 25px;
+    font-size: 28px;
+    font-weight: 700;
+    border-bottom: 1px solid #ccc;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
+  main {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2 {
+    text-align: center;
+    margin: 25px 0;
+    font-size: 22px;
+  }
+
+  .productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    width: 100%;
+  }
+
+  .producto {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    background: #fff;
+  }
+
+  .producto:hover { transform: scale(1.02); }
+
+  .producto img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .producto h3 { margin: 10px 0 5px; font-size: 18px; }
+
+  .producto p { font-weight: 600; margin-bottom: 10px; }
+
+  .talle {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .talle button {
+    padding: 5px 8px;
+    border: 1px solid #888;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 13px;
+    transition: 0.2s;
+  }
+
+  .talle button.selected {
+    background: #000;
+    color: #fff;
+  }
+
+  .btn-agregar {
+    width: 100%;
+    padding: 10px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .btn-agregar:hover { opacity: 0.85; }
+
+  /* Mini carrito */
+  #mini-carrito {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 9999;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+  }
+
+  #mini-carrito:hover {
+    transform: translateX(-50%) scale(1.05);
+  }
+
+  /* Burbuja “Calcular Talle” */
+  #burbujaTalle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #000;
+    color: #fff;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 14px;
+    height: 50px;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 9999;
+    animation: pop 1.2s infinite alternate ease-in-out;
+  }
+
+  @keyframes pop {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+  }
+
+  /* Logros */
+  #cuadroLogros {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    background: #f6f6f6;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    padding: 25px;
+    margin: 50px 0 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 700px;
+  }
+
+  #cuadroLogros div p:first-child {
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  #cuadroLogros div p:last-child {
+    color: #555;
+    font-size: 14px;
+  }
+
+  /* Historia */
+  #cuadroHistoria {
+    background: #f6f6f6;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    padding: 30px;
+    margin: 30px auto 80px;
+    text-align: center;
+    width: 90%;
+    max-width: 700px;
+    line-height: 1.7;
+  }
+
+  #cuadroHistoria h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  /* Notificaciones */
+  #notificaciones {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99999;
+  }
+
+  .notificacion {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    animation: aparecer 0.6s forwards;
+  }
+
+  @keyframes aparecer {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    #cuadroLogros { flex-direction: column; }
+    .productos { grid-template-columns: repeat(2, 1fr); }
+    #mini-carrito { font-size: 12px; padding: 8px 18px; }
+    #burbujaTalle { height: 45px; font-size: 12px; padding: 0 12px; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <h1>Catálogo de Remeras Lisas</h1>
-    <p>Freeman Streetwear</p>
-  </header>
+<header>FREEMAN</header>
 
-  <!-- GRID DE PRODUCTOS -->
-  <div class="productos">
-    <div class="producto" data-nombre="Remera Negra" data-precio="8500">
-      <img src="img/remeranegra.png" alt="Remera Negra">
-      <h3>Remera Negra</h3>
-      <p>$8500</p>
- <div class="talles">
-    <button class="btnTalle" data-talle="S">S</button>
-    <button class="btnTalle" data-talle="M">M</button>
-    <button class="btnTalle" data-talle="L">L</button>
-    <button class="btnTalle" data-talle="XL">XL</button>
-    <button class="btnTalle" data-talle="XXL">XXL</button>
-      <button>Agregar al carrito</button>
-    </div>
-    <div class="producto" data-nombre="Remera Blanca" data-precio="8500">
-      <img src="img/remerablanca.png" alt="Remera Blanca">
-      <h3>Remera Blanca</h3>
-      <p>$8500</p>
- <div class="talles">
-    <button class="btnTalle" data-talle="S">S</button>
-    <button class="btnTalle" data-talle="M">M</button>
-    <button class="btnTalle" data-talle="L">L</button>
-    <button class="btnTalle" data-talle="XL">XL</button>
-    <button class="btnTalle" data-talle="XXL">XXL</button>
-      <button>Agregar al carrito</button>
-    </div>
-    <div class="producto" data-nombre="Remera Gris Topo" data-precio="8500">
-      <img src="img/remeragris.png" alt="Remera Gris">
-      <h3>Remera Gris Topo</h3>
-      <p>$8500</p>
- <div class="talles">
-    <button class="btnTalle" data-talle="S">S</button>
-    <button class="btnTalle" data-talle="M">M</button>
-    <button class="btnTalle" data-talle="L">L</button>
-    <button class="btnTalle" data-talle="XL">XL</button>
-    <button class="btnTalle" data-talle="XXL">XXL</button>
-      <button>Agregar al carrito</button>
-    </div>
-    <div class="producto" data-nombre="Remera Roja" data-precio="8500">
-      <img src="img/remeraroja.png" alt="Remera Roja">
-      <h3>Remera Roja</h3>
-      <p>$8500</p>
- <div class="talles">
-    <button class="btnTalle" data-talle="S">S</button>
-    <button class="btnTalle" data-talle="M">M</button>
-    <button class="btnTalle" data-talle="L">L</button>
-    <button class="btnTalle" data-talle="XL">XL</button>
-    <button class="btnTalle" data-talle="XXL">XXL</button>
-      <button>Agregar al carrito</button>
-    </div>
-    <div class="producto" data-nombre="Remera Azul Oscuro" data-precio="8500">
-      <img src="img/remeraazul.png" alt="Remera Azul">
-      <h3>Remera Azul Oscuro</h3>
-      <p>$8500</p>
- <div class="talles">
-    <button class="btnTalle" data-talle="S">S</button>
-    <button class="btnTalle" data-talle="M">M</button>
-    <button class="btnTalle" data-talle="L">L</button>
-    <button class="btnTalle" data-talle="XL">XL</button>
-    <button class="btnTalle" data-talle="XXL">XXL</button>
-      <button>Agregar al carrito</button>
-    </div>
-    <div class="producto" data-nombre="Remera Beige" data-precio="8500">
-      <img src="img/remerabeige.png" alt="Remera Beige">
-      <h3>Remera Beige</h3>
-      <p>$8500</p>
- <div class="talles">
-    <button class="btnTalle" data-talle="S">S</button>
-    <button class="btnTalle" data-talle="M">M</button>
-    <button class="btnTalle" data-talle="L">L</button>
-    <button class="btnTalle" data-talle="XL">XL</button>
-    <button class="btnTalle" data-talle="XXL">XXL</button>
-      <button>Agregar al carrito</button>
-    </div>
+<main>
+  <h2>Remeras Lisas</h2>
+  <div class="productos" id="productos"></div>
+
+  <div id="cuadroLogros">
+    <div><p>+150</p><p>envíos completados</p></div>
+    <div><p>+1000</p><p>clientes satisfechos</p></div>
+    <div><p>4.8 ⭐</p><p>Facebook Marketplace</p></div>
   </div>
 
-  <!-- BLOQUES DE INFORMACIÓN -->
-  <div class="metricas"></div>
-  <div class="historia"></div>
-
-  <!-- CARRITO -->
-  <div id="barraCarrito"></div>
-  <div id="modalCarrito">
-    <div class="contenido">
-      <h3>Tu pedido</h3>
-      <ul id="listaCarrito"></ul>
-      <p id="total"></p>
-      <button id="btnEnviar">Enviar pedido por WhatsApp</button>
-      <button id="btnCerrar">Cerrar</button>
-    </div>
+  <div id="cuadroHistoria">
+    <h3>Nuestra Historia</h3>
+    <p>
+      Comenzamos con una sola remera y una idea clara: ofrecer productos de excelente calidad a un precio justo.  
+      Desde ese primer modelo, fabricamos cada remera con cuidado y dedicación, buscando que cada prenda transmita la esencia de lo simple, cómodo y duradero.  
+      Hoy seguimos creciendo, pero nuestro enfoque sigue siendo el mismo: remeras lisas que hablan por sí solas.
+    </p>
   </div>
+</main>
 
-  <!-- CALCULADORA DE TALLES -->
-  <div id="burbujaTalle">Calcular Talle</div>
-  <div id="modalTalle"></div>
+<!-- Mini carrito -->
+<div id="mini-carrito">0 productos - $0</div>
 
-  <!-- NOTIFICACIONES -->
-  <div id="notificaciones"></div>
+<!-- Burbuja “Calcular talle” -->
+<div id="burbujaTalle">📏 Calcular Talle</div>
 
-  <!-- JS Componentes -->
-  <script src="js/header.js"></script>
-  <script src="js/productos.js"></script>
-  <script src="js/carrito.js"></script>
-  <script src="js/calculadora.js"></script>
-  <script src="js/notificaciones.js"></script>
-  <script src="js/main.js"></script>
+<!-- Notificaciones -->
+<div id="notificaciones"></div>
+
+<script>
+  const productos = [
+    { nombre: "Remera Blanca", color: "Blanco", precio: 15000, img: "img/remerablanca.png" },
+    { nombre: "Remera Negra", color: "Negro", precio: 15000, img: "img/remeranegra.png" },
+    { nombre: "Remera Beige", color: "Beige", precio: 15000, img: "img/remerabeige.png" },
+    { nombre: "Remera Roja", color: "Rojo", precio: 15000, img: "img/remeraroja.png" },
+    { nombre: "Remera Gris", color: "Gris", precio: 15000, img: "img/remeragris.png" },
+  ];
+
+  const productosContainer = document.getElementById('productos');
+  const miniCarrito = document.getElementById('mini-carrito');
+  const notificaciones = document.getElementById('notificaciones');
+
+  let carrito = [];
+
+  productos.forEach(prod => {
+    const div = document.createElement('div');
+    div.classList.add('producto');
+    div.innerHTML = `
+      <img src="${prod.img}" alt="${prod.nombre}">
+      <h3>${prod.nombre}</h3>
+      <p>$${prod.precio}</p>
+      <div class="talle">
+        <button>S</button><button>M</button><button>L</button><button>XL</button><button>XXL</button>
+      </div>
+      <button class="btn-agregar">Agregar al carrito</button>
+    `;
+    productosContainer.appendChild(div);
+
+    const botonesTalle = div.querySelectorAll('.talle button');
+    let talleSeleccionado = null;
+    botonesTalle.forEach(btn => {
+      btn.addEventListener('click', () => {
+        botonesTalle.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        talleSeleccionado = btn.textContent;
+      });
+    });
+
+    div.querySelector('.btn-agregar').addEventListener('click', () => {
+      if (!talleSeleccionado) {
+        alert('Seleccioná un talle antes de agregar al carrito');
+        return;
+      }
+      carrito.push({ ...prod, talle: talleSeleccionado });
+      actualizarMiniCarrito();
+    });
+  });
+
+  function actualizarMiniCarrito() {
+    const total = carrito.reduce((acc, p) => acc + p.precio, 0);
+    miniCarrito.textContent = `${carrito.length} productos - $${total}`;
+  }
+
+  miniCarrito.addEventListener('click', () => {
+    alert(`Tienes ${carrito.length} productos en el carrito.\nTotal: $${carrito.reduce((a,b)=>a+b.precio,0)}`);
+  });
+
+  // Nombres aleatorios
+  const nombres = ["Lucía", "Martín", "Valentina", "Tomás", "Agustina", "Julián", "Sofía", "Nicolás", "Camila", "Benjamín", "Milagros", "Lautaro", "Juana", "Mateo", "Lara", "Franco", "Rocío", "Facundo", "Ailén", "Gonzalo", "Micaela", "Thiago", "Florencia", "Ramiro", "Brenda", "Santiago", "Melina", "Leandro", "Daniela", "Lucas", "Ariana", "Ezequiel", "Pilar", "Mariano", "Noelia", "Juan", "Malena", "Luciano", "Carolina", "Diego"];
+
+  function mostrarNotificacion() {
+    const nombre = nombres[Math.floor(Math.random() * nombres.length)];
+    const talle = ["S","M","L","XL","XXL"][Math.floor(Math.random() * 5)];
+    const color = productos[Math.floor(Math.random() * productos.length)].color;
+
+    const div = document.createElement('div');
+    div.classList.add('notificacion');
+    div.textContent = `${nombre} ha encargado 1 remera ${color} talle ${talle}`;
+    notificaciones.appendChild(div);
+
+    setTimeout(() => div.remove(), 5000);
+  }
+
+  setInterval(mostrarNotificacion, 12000);
+</script>
 
 </body>
 </html>
+
