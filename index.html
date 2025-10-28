@@ -4,201 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Freeman | Catálogo de Remeras Lisas</title>
-  <style>
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
-    body { background: #f9f9f9; color: #111; }
-
-    header {
-      text-align: center;
-      padding: 20px;
-      background: black;
-      color: white;
-    }
-    header h1 { font-size: 1.8rem; }
-
-    /* GRID DE PRODUCTOS */
-    .productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 20px;
-      justify-items: center;
-    }
-    .producto {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      text-align: center;
-      width: 100%;
-      max-width: 220px;
-    }
-    .producto img {
-      width: 100%;
-      height: auto;
-      border-bottom: 1px solid #eee;
-    }
-    .producto h3 { margin: 10px 0 5px; }
-    .producto p { color: gray; }
-    .producto button {
-      background: black;
-      color: white;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .producto button:hover { background: #333; }
-
-    /* BARRA INFERIOR DEL CARRITO */
-    #barraCarrito {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: black;
-      color: white;
-      padding: 15px 25px;
-      border-radius: 30px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-      cursor: pointer;
-      display: none;
-      z-index: 9999;
-      font-size: 14px;
-    }
-
-    /* MODAL DEL CARRITO */
-    #modalCarrito {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-    }
-    #modalCarrito .contenido {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-    }
-    #modalCarrito ul { list-style: none; margin-top: 10px; }
-    #modalCarrito li { margin: 5px 0; }
-    #modalCarrito button {
-      background: black;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      margin-top: 15px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    /* WIDGET “CALCULAR TALLE” */
-    #burbujaTalle {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: black;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      z-index: 9999;
-      font-size: 13px;
-      animation: pop 1s ease infinite alternate;
-    }
-    @keyframes pop {
-      from { transform: scale(1); }
-      to { transform: scale(1.1); }
-    }
-
-    /* CUADRO MÉTRICAS */
-    .metricas {
-      margin: 40px auto;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      text-align: center;
-      flex-wrap: wrap;
-    }
-    .metricas div {
-      background: white;
-      padding: 20px 30px;
-      border-radius: 16px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      font-weight: bold;
-    }
-
-    /* CUADRO HISTORIA */
-    .historia {
-      background: white;
-      margin: 30px auto;
-      padding: 20px;
-      max-width: 600px;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    /* NOTIFICACIONES DE PEDIDOS */
-    #notificaciones {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      opacity: 0;
-      transition: opacity 0.5s;
-      z-index: 9999;
-    }
-
-    @media(max-width:600px){
-      .productos{ grid-template-columns: repeat(2,1fr); }
-      header h1{ font-size:1.4rem; }
-      #barraCarrito{ font-size:12px; padding:10px 20px; }
-      #burbujaTalle{ font-size:12px; padding:8px 12px; }
-    }
-
-.btnVerTalles {
-  background: #fff;
-  border: 1px solid #111;
-  color: #111;
-  font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.3s ease;
-}
-
-.btnVerTalles:hover {
-  background: #111;
-  color: #fff;
-}
-
-
-  </style>
+  <!-- CSS Globales y de Componentes -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/productos.css">
+  <link rel="stylesheet" href="css/carrito.css">
+  <link rel="stylesheet" href="css/calculadora.css">
+  <link rel="stylesheet" href="css/metricas.css">
+  <link rel="stylesheet" href="css/historia.css">
 </head>
 <body>
 
+  <!-- HEADER -->
   <header>
     <h1>Catálogo de Remeras Lisas</h1>
     <p>Freeman Streetwear</p>
   </header>
 
+  <!-- GRID DE PRODUCTOS -->
   <div class="productos">
     <div class="producto" data-nombre="Remera Negra" data-precio="8500">
       <img src="img/remeranegra.png" alt="Remera Negra">
@@ -244,30 +68,12 @@
     </div>
   </div>
 
-<script>
-  // Abrir el modal desde cualquier botón "Ver talles"
-  document.querySelectorAll(".btnVerTalles").forEach(boton => {
-    boton.addEventListener("click", () => {
-      const modalTalle = document.getElementById("modalTalle");
-      modalTalle.style.display = "flex";
-    });
-  });
-</script>
+  <!-- BLOQUES DE INFORMACIÓN -->
+  <div class="metricas"></div>
+  <div class="historia"></div>
 
-
-  <div class="metricas">
-    <div>+150 envíos completados</div>
-    <div>+1000 clientes satisfechos</div>
-    <div>⭐ 4.8 estrellas en Marketplace</div>
-  </div>
-
-  <div class="historia">
-    <h3>Nuestra Historia</h3>
-    <p>Todo comenzó con una sola remera. A partir de ese primer paso, decidimos crear prendas que combinan calidad, comodidad y precio justo. Cada remera lisa de Freeman está diseñada para ser la base perfecta de cualquier outfit, con materiales seleccionados y dedicación en cada costura. Hoy seguimos creciendo, pero nunca olvidamos de dónde venimos.</p>
-  </div>
-
+  <!-- CARRITO -->
   <div id="barraCarrito"></div>
-
   <div id="modalCarrito">
     <div class="contenido">
       <h3>Tu pedido</h3>
@@ -278,158 +84,20 @@
     </div>
   </div>
 
+  <!-- CALCULADORA DE TALLES -->
   <div id="burbujaTalle">Calcular Talle</div>
+  <div id="modalTalle"></div>
 
-<!-- MODAL CALCULADORA DE TALLE -->
-<div id="modalTalle" style="
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,0.6); z-index:10000;
-  justify-content:center; align-items:center;">
-  <div style="
-    background:white; padding:20px;
-    border-radius:12px; width:90%; max-width:400px;
-    text-align:center;">
-    <h3>Calculadora de Talles</h3>
-    <p>Ingresá tus medidas para saber tu talle ideal.</p>
-
-    <div style="margin-top:15px;">
-      <label>Ancho de pecho (cm):</label><br>
-      <input id="anchoInput" type="number" style="margin:5px 0; width:100%; padding:6px;">
-      <label>Largo de remera (cm):</label><br>
-      <input id="largoInput" type="number" style="margin:5px 0; width:100%; padding:6px;">
-    </div>
-
-    <button id="btnCalcularTalle" style="
-      background:black; color:white;
-      border:none; padding:10px 15px;
-      margin-top:10px; cursor:pointer; width:100%;">
-      Calcular
-    </button>
-
-    <p id="resultadoTalle" style="margin-top:10px; font-weight:bold;"></p>
-
-    <button id="btnCerrarTalle" style="
-      background:#777; color:white; border:none;
-      padding:8px 12px; margin-top:15px; cursor:pointer;">
-      Cerrar
-    </button>
-  </div>
-</div>
-
-<script>
-  const modalTalle = document.getElementById("modalTalle");
-  const burbujaTalle = document.getElementById("burbujaTalle");
-  const btnCerrarTalle = document.getElementById("btnCerrarTalle");
-  const btnCalcularTalle = document.getElementById("btnCalcularTalle");
-  const resultadoTalle = document.getElementById("resultadoTalle");
-
-  // Mostrar modal al tocar la burbuja
-  burbujaTalle.onclick = () => {
-    modalTalle.style.display = "flex";
-  };
-
-  // Cerrar modal
-  btnCerrarTalle.onclick = () => {
-    modalTalle.style.display = "none";
-    resultadoTalle.textContent = "";
-  };
-
-  // Calcular talle
-  btnCalcularTalle.onclick = () => {
-    const ancho = parseFloat(document.getElementById("anchoInput").value);
-    const largo = parseFloat(document.getElementById("largoInput").value);
-    if (!ancho || !largo) {
-      resultadoTalle.textContent = "Por favor ingresá tus medidas.";
-      return;
-    }
-
-    const talles = [
-      { nombre: "S", ancho: 45, largo: 68 },
-      { nombre: "M", ancho: 48, largo: 70 },
-      { nombre: "L", ancho: 52, largo: 72 },
-      { nombre: "XL", ancho: 56, largo: 74 },
-      { nombre: "XXL", ancho: 60, largo: 76 },
-    ];
-
-    // Encuentra el talle más cercano
-    let talleIdeal = talles[0];
-    let diferenciaMin = Infinity;
-
-    talles.forEach(talle => {
-      const dif = Math.abs(ancho - talle.ancho) + Math.abs(largo - talle.largo);
-      if (dif < diferenciaMin) {
-        diferenciaMin = dif;
-        talleIdeal = talle;
-      }
-    });
-
-    resultadoTalle.textContent = `Tu talle ideal es: ${talleIdeal.nombre}`;
-  };
-</script>
-
-
+  <!-- NOTIFICACIONES -->
   <div id="notificaciones"></div>
 
-  <script>
-    const carrito = [];
-    const barra = document.getElementById("barraCarrito");
-    const modal = document.getElementById("modalCarrito");
-    const lista = document.getElementById("listaCarrito");
-    const totalTxt = document.getElementById("total");
+  <!-- JS Componentes -->
+  <script src="js/header.js"></script>
+  <script src="js/productos.js"></script>
+  <script src="js/carrito.js"></script>
+  <script src="js/calculadora.js"></script>
+  <script src="js/notificaciones.js"></script>
+  <script src="js/main.js"></script>
 
-    document.querySelectorAll(".producto button").forEach(btn=>{
-      btn.addEventListener("click", e=>{
-        const prod = e.target.closest(".producto");
-        const nombre = prod.dataset.nombre;
-        const precio = parseInt(prod.dataset.precio);
-        carrito.push({nombre, precio});
-        actualizarCarrito();
-      });
-    });
-
-    function actualizarCarrito(){
-      if(carrito.length>0){
-        const total = carrito.reduce((acc,p)=>acc+p.precio,0);
-        barra.style.display="block";
-        barra.textContent = `${carrito.length} producto(s) - Total $${total}`;
-      }
-    }
-
-    barra.addEventListener("click", ()=>{
-      modal.style.display="flex";
-      lista.innerHTML="";
-      carrito.forEach(p=>lista.innerHTML+=`<li>${p.nombre} - $${p.precio}</li>`);
-      totalTxt.textContent = "Total: $" + carrito.reduce((a,b)=>a+b.precio,0);
-    });
-
-    document.getElementById("btnCerrar").onclick=()=>modal.style.display="none";
-
-    document.getElementById("btnEnviar").onclick=()=>{
-      const mensaje = carrito.map(p=>`• ${p.nombre} - $${p.precio}`).join("%0A");
-      const total = carrito.reduce((a,b)=>a+b.precio,0);
-      window.open(`https://wa.me/3518583166?text=Hola!%20Quiero%20encargar:%0A${mensaje}%0ATotal:%20$${total}`);
-    };
-
-    // BURBUJA TALLE (puede enlazar a la calculadora)
-    document.getElementById("burbujaTalle").onclick=()=>{
-      alert("Aquí se abrirá la calculadora de talles 😉");
-    };
-
-    // NOTIFICACIONES DE PEDIDOS
-    const nombres = ["Lautaro","Julieta","Mateo","Camila","Agustín","Martina","Bruno","Sofía","Luciano","Valentina","Santiago","Mía","Facundo","Lucía","Tobías","Catalina","Franco","Juana","Thiago","Emma","Nicolás","Abril","Benjamín","Rocío","Lucas","Lara","Simón","Magalí","Tomás","Milagros","Dylan","Florencia","Ezequiel","Melina","Kevin","Nadia","Leandro","Paulina","Ramiro","Cecilia"];
-    const colores = ["Negra","Blanca","Gris Topo","Beige","Roja","Azul Oscuro"];
-    const talles = ["S","M","L","XL","XXL"];
-    const notif = document.getElementById("notificaciones");
-
-    function mostrarNotificacion(){
-      const n = nombres[Math.floor(Math.random()*nombres.length)];
-      const c = colores[Math.floor(Math.random()*colores.length)];
-      const t = talles[Math.floor(Math.random()*talles.length)];
-      notif.textContent = `${n} ha encargado 1 remera ${c} talle ${t}`;
-      notif.style.opacity = 1;
-      setTimeout(()=>notif.style.opacity=0,4000);
-    }
-    setInterval(mostrarNotificacion, 15000);
-  </script>
 </body>
 </html>

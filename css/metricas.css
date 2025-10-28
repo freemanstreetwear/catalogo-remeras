@@ -1,0 +1,16 @@
+.metricas {
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.metricas div {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  font-weight: bold;
+}
