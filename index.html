@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Freeman | Catálogo de Remeras Lisas</title>
   <style>
+
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
     body { background: #f9f9f9; color: #111; }
 
@@ -170,6 +171,25 @@
       #barraCarrito{ font-size:12px; padding:10px 20px; }
       #burbujaTalle{ font-size:12px; padding:8px 12px; }
     }
+
+.btnVerTalles {
+  background: #fff;
+  border: 1px solid #111;
+  color: #111;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+}
+
+.btnVerTalles:hover {
+  background: #111;
+  color: #fff;
+}
+
+
   </style>
 </head>
 <body>
@@ -223,6 +243,17 @@
       <button>Agregar al carrito</button>
     </div>
   </div>
+
+<script>
+  // Abrir el modal desde cualquier botón "Ver talles"
+  document.querySelectorAll(".btnVerTalles").forEach(boton => {
+    boton.addEventListener("click", () => {
+      const modalTalle = document.getElementById("modalTalle");
+      modalTalle.style.display = "flex";
+    });
+  });
+</script>
+
 
   <div class="metricas">
     <div>+150 envíos completados</div>
