@@ -184,36 +184,42 @@
       <img src="img/remeranegra.png" alt="Remera Negra">
       <h3>Remera Negra</h3>
       <p>$8500</p>
+      <button class="btnVerTalles">Ver talles</button>
       <button>Agregar al carrito</button>
     </div>
     <div class="producto" data-nombre="Remera Blanca" data-precio="8500">
       <img src="img/remerablanca.png" alt="Remera Blanca">
       <h3>Remera Blanca</h3>
       <p>$8500</p>
+      <button class="btnVerTalles">Ver talles</button>
       <button>Agregar al carrito</button>
     </div>
     <div class="producto" data-nombre="Remera Gris Topo" data-precio="8500">
       <img src="img/remeragris.png" alt="Remera Gris">
       <h3>Remera Gris Topo</h3>
       <p>$8500</p>
+      <button class="btnVerTalles">Ver talles</button>
       <button>Agregar al carrito</button>
     </div>
     <div class="producto" data-nombre="Remera Roja" data-precio="8500">
       <img src="img/remeraroja.png" alt="Remera Roja">
       <h3>Remera Roja</h3>
       <p>$8500</p>
+      <button class="btnVerTalles">Ver talles</button>
       <button>Agregar al carrito</button>
     </div>
     <div class="producto" data-nombre="Remera Azul Oscuro" data-precio="8500">
-      <img src="img/remerazul.png" alt="Remera Azul">
+      <img src="img/remeraazul.png" alt="Remera Azul">
       <h3>Remera Azul Oscuro</h3>
       <p>$8500</p>
+      <button class="btnVerTalles">Ver talles</button>
       <button>Agregar al carrito</button>
     </div>
     <div class="producto" data-nombre="Remera Beige" data-precio="8500">
       <img src="img/remerabeige.png" alt="Remera Beige">
       <h3>Remera Beige</h3>
       <p>$8500</p>
+      <button class="btnVerTalles">Ver talles</button>
       <button>Agregar al carrito</button>
     </div>
   </div>
@@ -242,6 +248,94 @@
   </div>
 
   <div id="burbujaTalle">Calcular Talle</div>
+
+<!-- MODAL CALCULADORA DE TALLE -->
+<div id="modalTalle" style="
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.6); z-index:10000;
+  justify-content:center; align-items:center;">
+  <div style="
+    background:white; padding:20px;
+    border-radius:12px; width:90%; max-width:400px;
+    text-align:center;">
+    <h3>Calculadora de Talles</h3>
+    <p>Ingresá tus medidas para saber tu talle ideal.</p>
+
+    <div style="margin-top:15px;">
+      <label>Ancho de pecho (cm):</label><br>
+      <input id="anchoInput" type="number" style="margin:5px 0; width:100%; padding:6px;">
+      <label>Largo de remera (cm):</label><br>
+      <input id="largoInput" type="number" style="margin:5px 0; width:100%; padding:6px;">
+    </div>
+
+    <button id="btnCalcularTalle" style="
+      background:black; color:white;
+      border:none; padding:10px 15px;
+      margin-top:10px; cursor:pointer; width:100%;">
+      Calcular
+    </button>
+
+    <p id="resultadoTalle" style="margin-top:10px; font-weight:bold;"></p>
+
+    <button id="btnCerrarTalle" style="
+      background:#777; color:white; border:none;
+      padding:8px 12px; margin-top:15px; cursor:pointer;">
+      Cerrar
+    </button>
+  </div>
+</div>
+
+<script>
+  const modalTalle = document.getElementById("modalTalle");
+  const burbujaTalle = document.getElementById("burbujaTalle");
+  const btnCerrarTalle = document.getElementById("btnCerrarTalle");
+  const btnCalcularTalle = document.getElementById("btnCalcularTalle");
+  const resultadoTalle = document.getElementById("resultadoTalle");
+
+  // Mostrar modal al tocar la burbuja
+  burbujaTalle.onclick = () => {
+    modalTalle.style.display = "flex";
+  };
+
+  // Cerrar modal
+  btnCerrarTalle.onclick = () => {
+    modalTalle.style.display = "none";
+    resultadoTalle.textContent = "";
+  };
+
+  // Calcular talle
+  btnCalcularTalle.onclick = () => {
+    const ancho = parseFloat(document.getElementById("anchoInput").value);
+    const largo = parseFloat(document.getElementById("largoInput").value);
+    if (!ancho || !largo) {
+      resultadoTalle.textContent = "Por favor ingresá tus medidas.";
+      return;
+    }
+
+    const talles = [
+      { nombre: "S", ancho: 45, largo: 68 },
+      { nombre: "M", ancho: 48, largo: 70 },
+      { nombre: "L", ancho: 52, largo: 72 },
+      { nombre: "XL", ancho: 56, largo: 74 },
+      { nombre: "XXL", ancho: 60, largo: 76 },
+    ];
+
+    // Encuentra el talle más cercano
+    let talleIdeal = talles[0];
+    let diferenciaMin = Infinity;
+
+    talles.forEach(talle => {
+      const dif = Math.abs(ancho - talle.ancho) + Math.abs(largo - talle.largo);
+      if (dif < diferenciaMin) {
+        diferenciaMin = dif;
+        talleIdeal = talle;
+      }
+    });
+
+    resultadoTalle.textContent = `Tu talle ideal es: ${talleIdeal.nombre}`;
+  };
+</script>
+
 
   <div id="notificaciones"></div>
 
