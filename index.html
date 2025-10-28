@@ -26,8 +26,8 @@
     font-size: 28px;
     font-weight: 700;
     border-bottom: 1px solid #ccc;
-    background: #fff;
-    position: sticky;
+    background: #ffffff00;
+    position: static;
     top: 0;
     z-index: 999;
   }
@@ -47,12 +47,16 @@
     font-size: 22px;
   }
 
-  .productos {
+.productos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 20px;
     justify-items: center;
     width: 100%;
+    max-width: 1200px; /* Limita el ancho máximo del grid */
+    margin: 0 auto;    /* Centra el grid en pantallas grandes */
+    padding: 0 10px;   /* Evita que los elementos se peguen al borde en móviles */
+    box-sizing: border-box; /* Incluye padding dentro del ancho total */
   }
 
   .producto {
@@ -238,7 +242,7 @@
 </head>
 <body>
 
-<header>FREEMAN</header>
+<header>Catalogo Freeman </header>
 
 <main>
   <h2>Remeras Lisas</h2>
