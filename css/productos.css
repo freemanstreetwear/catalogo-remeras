@@ -1,9 +1,9 @@
 .productos {
   display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
   padding: 20px;
-  justify-items: stretch
+  justify-items: center; /* centramos los productos */
 }
 
 .producto {
@@ -26,7 +26,7 @@
 .producto p { color: gray; }
 
 /* Botón general (Agregar al carrito) */
-.producto > button {
+.producto > button.agregar {
   background: black;
   color: white;
   border: none;
@@ -36,7 +36,7 @@
   transition: 0.3s;
   margin-top: 8px;
 }
-.producto > button:hover { background: #333; }
+.producto > button.agregar:hover { background: #333; }
 
 /* Botones de talles */
 .talles {
@@ -63,9 +63,10 @@
   color: #fff;
 }
 
+/* Media query móviles: 2 productos por fila */
 @media(max-width:600px){
   .productos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    justify-items: stretch;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
   }
 }
