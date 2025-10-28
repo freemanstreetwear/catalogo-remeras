@@ -1,9 +1,15 @@
 // productos.js
 
-// Abrir modal de talles al hacer clic en "Ver talles"
-document.querySelectorAll(".btnVerTalles").forEach(boton => {
-  boton.addEventListener("click", () => {
-    const modalTalle = document.getElementById("modalTalle");
-    modalTalle.style.display = "flex";
+// Selecciona todos los botones de talle
+document.querySelectorAll(".btnTalle").forEach(boton => {
+  boton.addEventListener("click", (e) => {
+    const prod = e.target.closest(".producto");
+    const nombre = prod.dataset.nombre;
+    const precio = parseInt(prod.dataset.precio);
+    const talle = e.target.dataset.talle;
+
+    carrito.push({ nombre: `${nombre} - Talle ${talle}`, precio });
+    actualizarCarrito();
   });
 });
+
