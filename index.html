@@ -1,267 +1,310 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freeman - Tienda Oficial</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    background-color: #fff;
-    color: #111;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freeman | Catálogo de Remeras Lisas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
+    body { background: #f9f9f9; color: #111; }
 
-  /* 🔹 Logo */
-  header {
-    position: fixed;
-    top: 10px;
-    left: 15px;
-    z-index: 99999;
-  }
+    header {
+      text-align: center;
+      padding: 20px;
+      background: black;
+      color: white;
+    }
+    header h1 { font-size: 1.8rem; }
 
-  header img {
-    height: 40px;
-  }
+    /* GRID DE PRODUCTOS */
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      justify-items: center;
+    }
+    .producto {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      width: 100%;
+      max-width: 220px;
+    }
+    .producto img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #eee;
+    }
+    .producto h3 { margin: 10px 0 5px; }
+    .producto p { color: gray; }
+    .producto button {
+      background: black;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .producto button:hover { background: #333; }
 
-  /* 🔹 Widget de encargos */
-  #encargosContainer {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: all 0.6s ease;
-    z-index: 9999;
-  }
-
-  /* 🔹 Burbuja flotante */
-  #burbujaTalle {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 110px;
-    height: 45px;
-    background: #000;
-    color: #fff;
-    border-radius: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    z-index: 9999;
-    font-size: 14px;
-    font-weight: 500;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-  }
-
-  #burbujaTalle:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-  }
-
-  /* 🔹 Panel del widget */
-  #widgetTalleSeccion {
-    position: fixed;
-    left: 140px;
-    bottom: 20px;
-    background: #f5f5f5;
-    color: #111;
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    max-width: 340px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s ease;
-    z-index: 9998;
-    display: none;
-  }
-
-  /* 🔹 Responsivo */
-  @media (max-width: 420px) {
-    body {
-      max-width: 380px;
-      margin: 0 auto;
-      overflow-x: hidden;
+    /* BARRA INFERIOR DEL CARRITO */
+    #barraCarrito {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: black;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 30px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      display: none;
+      z-index: 9999;
+      font-size: 14px;
     }
 
-    #widgetTalleSeccion {
-      left: 15px;
-      right: 15px;
-      max-width: 350px;
+    /* MODAL DEL CARRITO */
+    #modalCarrito {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
     }
-  }
-</style>
+    #modalCarrito .contenido {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+    }
+    #modalCarrito ul { list-style: none; margin-top: 10px; }
+    #modalCarrito li { margin: 5px 0; }
+    #modalCarrito button {
+      background: black;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-top: 15px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* WIDGET “CALCULAR TALLE” */
+    #burbujaTalle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: black;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 9999;
+      font-size: 13px;
+      animation: pop 1s ease infinite alternate;
+    }
+    @keyframes pop {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+
+    /* CUADRO MÉTRICAS */
+    .metricas {
+      margin: 40px auto;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .metricas div {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      font-weight: bold;
+    }
+
+    /* CUADRO HISTORIA */
+    .historia {
+      background: white;
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 600px;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* NOTIFICACIONES DE PEDIDOS */
+    #notificaciones {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: 9999;
+    }
+
+    @media(max-width:600px){
+      .productos{ grid-template-columns: repeat(2,1fr); }
+      header h1{ font-size:1.4rem; }
+      #barraCarrito{ font-size:12px; padding:10px 20px; }
+      #burbujaTalle{ font-size:12px; padding:8px 12px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- 🔹 LOGO FREEMAN -->
-<header>
-  <img src="https://freeman.com/logo.png" alt="Freeman">
-</header>
+  <header>
+    <h1>Catálogo de Remeras Lisas</h1>
+    <p>Freeman Streetwear</p>
+  </header>
 
-<!-- 🔹 MENSAJES DE ENCARGOS -->
-<div id="encargosContainer"></div>
-
-<!-- 🔹 BURBUJA FLOTANTE -->
-<div id="burbujaTalle">Calcular Talle</div>
-
-<!-- 🔹 PANEL DEL WIDGET -->
-<section id="widgetTalleSeccion">
-  <div id="widgetTalle">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h4 style="margin:0; font-weight:600;">Calculadora de talle</h4>
-      <button id="cerrarTalle" style="background:none; border:none; font-size:18px; cursor:pointer; color:#333;">✕</button>
+  <div class="productos">
+    <div class="producto" data-nombre="Remera Negra" data-precio="8500">
+      <img src="img/remeranegra.png" alt="Remera Negra">
+      <h3>Remera Negra</h3>
+      <p>$8500</p>
+      <button>Agregar al carrito</button>
     </div>
-    <hr style="border:none; border-top:1px solid #ccc; margin:10px 0;">
-
-    <label style="display:block; margin:6px 0 3px;">Altura (cm)</label>
-    <input type="range" id="wAltura" min="140" max="210" value="175" style="width:100%; accent-color:#111;">
-    <span id="wAlturaVal" style="display:block; margin-bottom:5px;">175 cm</span>
-
-    <label style="display:block; margin:6px 0 3px;">Peso (kg)</label>
-    <input type="range" id="wPeso" min="40" max="120" value="70" style="width:100%; accent-color:#111;">
-    <span id="wPesoVal" style="display:block; margin-bottom:5px;">70 kg</span>
-
-    <label style="display:block; margin:6px 0 3px;">Contextura</label>
-    <div style="display:flex; justify-content:center; gap:8px; margin-bottom:8px;">
-      <button class="wContextBtn" data-contextura="pequeña" style="padding:6px 10px; border:none; border-radius:6px; background:#fff; color:#111; cursor:pointer;">Pequeña</button>
-      <button class="wContextBtn" data-contextura="media" style="padding:6px 10px; border:none; border-radius:6px; background:#fff; color:#111; cursor:pointer;">Media</button>
-      <button class="wContextBtn" data-contextura="grande" style="padding:6px 10px; border:none; border-radius:6px; background:#fff; color:#111; cursor:pointer;">Grande</button>
+    <div class="producto" data-nombre="Remera Blanca" data-precio="8500">
+      <img src="img/remerablanca.png" alt="Remera Blanca">
+      <h3>Remera Blanca</h3>
+      <p>$8500</p>
+      <button>Agregar al carrito</button>
     </div>
-
-    <button id="wCalcular" style="padding:10px 20px; border:none; border-radius:8px; background:#a8d5a2; color:#111; font-weight:600; cursor:pointer; width:100%;">Calcular</button>
-
-    <!-- Resultado -->
-    <div id="wResultadoContainer" style="margin-top:12px; display:none; flex-direction:column; align-items:center;">
-      <p id="wResultado" style="margin:0; font-weight:600; font-size:18px; color:#111;"></p>
+    <div class="producto" data-nombre="Remera Gris Topo" data-precio="8500">
+      <img src="img/remeragris.png" alt="Remera Gris">
+      <h3>Remera Gris Topo</h3>
+      <p>$8500</p>
+      <button>Agregar al carrito</button>
+    </div>
+    <div class="producto" data-nombre="Remera Roja" data-precio="8500">
+      <img src="img/remeraroja.png" alt="Remera Roja">
+      <h3>Remera Roja</h3>
+      <p>$8500</p>
+      <button>Agregar al carrito</button>
+    </div>
+    <div class="producto" data-nombre="Remera Azul Oscuro" data-precio="8500">
+      <img src="img/remerazul.png" alt="Remera Azul">
+      <h3>Remera Azul Oscuro</h3>
+      <p>$8500</p>
+      <button>Agregar al carrito</button>
+    </div>
+    <div class="producto" data-nombre="Remera Beige" data-precio="8500">
+      <img src="img/remerabeige.png" alt="Remera Beige">
+      <h3>Remera Beige</h3>
+      <p>$8500</p>
+      <button>Agregar al carrito</button>
     </div>
   </div>
-</section>
 
-<!-- 🔹 SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  const burbuja = document.getElementById("burbujaTalle");
-  const widgetSeccion = document.getElementById("widgetTalleSeccion");
-  const cerrar = document.getElementById("cerrarTalle");
-  let visible = false;
+  <div class="metricas">
+    <div>+150 envíos completados</div>
+    <div>+1000 clientes satisfechos</div>
+    <div>⭐ 4.8 estrellas en Marketplace</div>
+  </div>
 
-  // Mostrar / Ocultar widget
-  burbuja.addEventListener("click", ()=>{
-    visible = !visible;
-    if(visible){
-      widgetSeccion.style.display = "block";
-      setTimeout(()=>{
-        widgetSeccion.style.opacity="1";
-        widgetSeccion.style.transform="translateY(0)";
-      }, 50);
-    } else {
-      widgetSeccion.style.opacity="0";
-      widgetSeccion.style.transform="translateY(20px)";
-      setTimeout(()=>{ widgetSeccion.style.display="none"; }, 400);
-    }
-  });
+  <div class="historia">
+    <h3>Nuestra Historia</h3>
+    <p>Todo comenzó con una sola remera. A partir de ese primer paso, decidimos crear prendas que combinan calidad, comodidad y precio justo. Cada remera lisa de Freeman está diseñada para ser la base perfecta de cualquier outfit, con materiales seleccionados y dedicación en cada costura. Hoy seguimos creciendo, pero nunca olvidamos de dónde venimos.</p>
+  </div>
 
-  cerrar.addEventListener("click", ()=>{
-    visible=false;
-    widgetSeccion.style.opacity="0";
-    widgetSeccion.style.transform="translateY(20px)";
-    setTimeout(()=>{ widgetSeccion.style.display="none"; }, 400);
-  });
+  <div id="barraCarrito"></div>
 
-  // Variables calculadora
-  const alturaInput=document.getElementById("wAltura");
-  const pesoInput=document.getElementById("wPeso");
-  const alturaVal=document.getElementById("wAlturaVal");
-  const pesoVal=document.getElementById("wPesoVal");
-  const resultado=document.getElementById("wResultado");
-  const resultadoContainer=document.getElementById("wResultadoContainer");
-  let contextura="";
+  <div id="modalCarrito">
+    <div class="contenido">
+      <h3>Tu pedido</h3>
+      <ul id="listaCarrito"></ul>
+      <p id="total"></p>
+      <button id="btnEnviar">Enviar pedido por WhatsApp</button>
+      <button id="btnCerrar">Cerrar</button>
+    </div>
+  </div>
 
-  alturaInput.oninput=()=>alturaVal.innerText=alturaInput.value+" cm";
-  pesoInput.oninput=()=>pesoVal.innerText=pesoInput.value+" kg";
+  <div id="burbujaTalle">Calcular Talle</div>
 
-  const botones=document.getElementsByClassName("wContextBtn");
-  for(let i=0;i<botones.length;i++){
-    botones[i].onclick=function(){
-      for(let j=0;j<botones.length;j++){
-        botones[j].style.background="#fff";
-        botones[j].style.color="#111";
+  <div id="notificaciones"></div>
+
+  <script>
+    const carrito = [];
+    const barra = document.getElementById("barraCarrito");
+    const modal = document.getElementById("modalCarrito");
+    const lista = document.getElementById("listaCarrito");
+    const totalTxt = document.getElementById("total");
+
+    document.querySelectorAll(".producto button").forEach(btn=>{
+      btn.addEventListener("click", e=>{
+        const prod = e.target.closest(".producto");
+        const nombre = prod.dataset.nombre;
+        const precio = parseInt(prod.dataset.precio);
+        carrito.push({nombre, precio});
+        actualizarCarrito();
+      });
+    });
+
+    function actualizarCarrito(){
+      if(carrito.length>0){
+        const total = carrito.reduce((acc,p)=>acc+p.precio,0);
+        barra.style.display="block";
+        barra.textContent = `${carrito.length} producto(s) - Total $${total}`;
       }
-      this.style.background="#a8d5a2";
-      this.style.color="#111";
-      contextura=this.getAttribute("data-contextura");
+    }
+
+    barra.addEventListener("click", ()=>{
+      modal.style.display="flex";
+      lista.innerHTML="";
+      carrito.forEach(p=>lista.innerHTML+=`<li>${p.nombre} - $${p.precio}</li>`);
+      totalTxt.textContent = "Total: $" + carrito.reduce((a,b)=>a+b.precio,0);
+    });
+
+    document.getElementById("btnCerrar").onclick=()=>modal.style.display="none";
+
+    document.getElementById("btnEnviar").onclick=()=>{
+      const mensaje = carrito.map(p=>`• ${p.nombre} - $${p.precio}`).join("%0A");
+      const total = carrito.reduce((a,b)=>a+b.precio,0);
+      window.open(`https://wa.me/3518583166?text=Hola!%20Quiero%20encargar:%0A${mensaje}%0ATotal:%20$${total}`);
     };
-  }
 
-  document.getElementById("wCalcular").onclick=function(){
-    const peso=parseFloat(pesoInput.value);
-    if(!contextura){
-      resultado.style.color="#f33";
-      resultado.innerText="Por favor seleccioná tu contextura.";
-      resultadoContainer.style.display="flex";
-      return;
+    // BURBUJA TALLE (puede enlazar a la calculadora)
+    document.getElementById("burbujaTalle").onclick=()=>{
+      alert("Aquí se abrirá la calculadora de talles 😉");
+    };
+
+    // NOTIFICACIONES DE PEDIDOS
+    const nombres = ["Lautaro","Julieta","Mateo","Camila","Agustín","Martina","Bruno","Sofía","Luciano","Valentina","Santiago","Mía","Facundo","Lucía","Tobías","Catalina","Franco","Juana","Thiago","Emma","Nicolás","Abril","Benjamín","Rocío","Lucas","Lara","Simón","Magalí","Tomás","Milagros","Dylan","Florencia","Ezequiel","Melina","Kevin","Nadia","Leandro","Paulina","Ramiro","Cecilia"];
+    const colores = ["Negra","Blanca","Gris Topo","Beige","Roja","Azul Oscuro"];
+    const talles = ["S","M","L","XL","XXL"];
+    const notif = document.getElementById("notificaciones");
+
+    function mostrarNotificacion(){
+      const n = nombres[Math.floor(Math.random()*nombres.length)];
+      const c = colores[Math.floor(Math.random()*colores.length)];
+      const t = talles[Math.floor(Math.random()*talles.length)];
+      notif.textContent = `${n} ha encargado 1 remera ${c} talle ${t}`;
+      notif.style.opacity = 1;
+      setTimeout(()=>notif.style.opacity=0,4000);
     }
-
-    let talle="", consejo="";
-    if(contextura==="pequeña"){
-      if(peso<60) talle="S";
-      else if(peso<70){ talle="S-M"; consejo="Podés elegir S o M según prefieras más holgado."; }
-      else if(peso<80) talle="M";
-      else talle="L";
-    } else if(contextura==="media"){
-      if(peso<65) talle="M";
-      else if(peso<75){ talle="M-L"; consejo="Podés elegir M o L según prefieras más holgado."; }
-      else if(peso<90) talle="L";
-      else talle="XL";
-    } else if(contextura==="grande"){
-      if(peso<75) talle="L";
-      else if(peso<90){ talle="L-XL"; consejo="Podés elegir L o XL según prefieras más holgado."; }
-      else talle="XL";
-    }
-
-    resultado.style.color="#111";
-    resultado.innerHTML="Tu talle aproximado: <strong>"+talle+"</strong> (oversize)"+(consejo? "<br>"+consejo : "");
-    resultadoContainer.style.display="flex";
-  };
-
-  /* 🔹 Encargos aleatorios */
-  const nombres = [
-    "Agustín", "Camila", "Luciano", "María", "Tomás", "Martina", "Santiago", "Julieta", "Federico", "Sofía",
-    "Juan", "Valentina", "Nicolás", "Lara", "Ezequiel", "Rocío", "Leandro", "Micaela", "Mateo", "Milagros",
-    "Facundo", "Antonella", "Joaquín", "Luz", "Franco", "Carolina", "Alan", "Ailén", "Gonzalo", "Sol",
-    "Ignacio", "Florencia", "Ramiro", "Victoria", "Lucas", "Agustina", "Bautista", "Candela", "Bruno", "Paula"
-  ];
-  const talles = ["S","M","L","XL"];
-  const colores = ["Negra","Blanca","Beige","Gris","Bordó","Azul"];
-  const contenedor = document.getElementById("encargosContainer");
-
-  function mostrarEncargo(){
-    const nombre = nombres[Math.floor(Math.random()*nombres.length)];
-    const talle = talles[Math.floor(Math.random()*talles.length)];
-    const color = colores[Math.floor(Math.random()*colores.length)];
-    contenedor.innerHTML = `${nombre} ha encargado 1 remera ${color}, talle ${talle}`;
-    contenedor.style.opacity = "1";
-    contenedor.style.transform = "translateX(0)";
-    setTimeout(()=>{
-      contenedor.style.opacity = "0";
-      contenedor.style.transform = "translateX(100%)";
-    }, 5000);
-  }
-
-  setTimeout(mostrarEncargo, 5000); // primer mensaje a los 5s
-  setInterval(mostrarEncargo, 10000); // luego cada 10s
-});
-</script>
-
+    setInterval(mostrarNotificacion, 15000);
+  </script>
 </body>
 </html>
