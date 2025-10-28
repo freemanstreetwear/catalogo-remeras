@@ -53,10 +53,10 @@
     gap: 20px;
     justify-items: center;
     width: 100%;
-    max-width: 1200px;   /* Limita ancho máximo en pantallas grandes */
-    margin: 0 auto;       /* Centra el grid horizontalmente */
-    padding: 0 10px;      /* Evita que toque los bordes en móviles */
-    box-sizing: border-box; /* Incluye padding dentro del width */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
   .producto {
@@ -139,6 +139,62 @@
     transform: translateX(-50%) scale(1.05);
   }
 
+  /* Carrito lateral */
+  .carrito-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 350px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.4s ease;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .carrito-panel.abierto { right: 0; }
+
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    z-index: 99998;
+  }
+  .overlay.visible { display: block; }
+
+  .carrito-header { display: flex; justify-content: space-between; align-items: center; }
+  .cerrar-carrito {
+    background: none; border: none; font-size: 24px; cursor: pointer;
+  }
+
+  .carrito-items { flex: 1; margin-top: 15px; }
+  .carrito-item {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #eee; padding: 10px 0;
+  }
+
+  .carrito-item button {
+    background: none; border: none; font-size: 18px; cursor: pointer;
+  }
+
+  .carrito-envio { margin: 15px 0; font-size: 14px; }
+  .carrito-total {
+    display: flex; justify-content: space-between;
+    font-size: 18px; font-weight: bold; margin-bottom: 10px;
+  }
+
+  .btn-encargar {
+    background: #25d366; color: white; border: none; padding: 12px;
+    border-radius: 8px; font-size: 16px; cursor: pointer;
+  }
+  .btn-encargar:hover { background: #1ebe5d; }
+
   /* Burbuja “Calcular Talle” */
   #burbujaTalle {
     position: fixed;
@@ -159,10 +215,7 @@
     animation: pop 1.2s infinite alternate ease-in-out;
   }
 
-  @keyframes pop {
-    from { transform: scale(1); }
-    to { transform: scale(1.05); }
-  }
+  @keyframes pop { from { transform: scale(1); } to { transform: scale(1.05); } }
 
   /* Logros */
   #cuadroLogros {
@@ -179,15 +232,8 @@
     max-width: 700px;
   }
 
-  #cuadroLogros div p:first-child {
-    font-size: 22px;
-    font-weight: 700;
-  }
-
-  #cuadroLogros div p:last-child {
-    color: #555;
-    font-size: 14px;
-  }
+  #cuadroLogros div p:first-child { font-size: 22px; font-weight: 700; }
+  #cuadroLogros div p:last-child { color: #555; font-size: 14px; }
 
   /* Historia */
   #cuadroHistoria {
@@ -201,12 +247,7 @@
     max-width: 700px;
     line-height: 1.7;
   }
-
-  #cuadroHistoria h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    font-weight: 700;
-  }
+  #cuadroHistoria h3 { font-size: 20px; margin-bottom: 10px; font-weight: 700; }
 
   /* Notificaciones */
   #notificaciones {
@@ -237,6 +278,7 @@
     .productos { grid-template-columns: repeat(2, 1fr); }
     #mini-carrito { font-size: 12px; padding: 8px 18px; }
     #burbujaTalle { height: 45px; font-size: 12px; padding: 0 12px; }
+    .carrito-panel { width: 100%; }
   }
 </style>
 </head>
@@ -267,6 +309,25 @@
 <!-- Mini carrito -->
 <div id="mini-carrito">0 productos - $0</div>
 
+<!-- Panel de carrito lateral -->
+<div id="carritoPanel" class="carrito-panel">
+  <div class="carrito-header">
+    <h2>Tu carrito</h2>
+    <button id="cerrarCarrito" class="cerrar-carrito">&times;</button>
+  </div>
+  <div id="carritoItems" class="carrito-items"></div>
+  <div class="carrito-envio">
+    <h3>Tipo de entrega</h3>
+    <label><input type="radio" name="envio" value="retiro" checked> Retiro en San Alberto 1336, San Vicente</label><br>
+    <label><input type="radio" name="envio" value="domicilio"> Entrega a domicilio ($1000 a $3000)</label>
+  </div>
+  <div class="carrito-total">
+    <span>Total:</span><strong id="totalCarrito">$0</strong>
+  </div>
+  <button id="btnEncargar" class="btn-encargar">Encargar por WhatsApp</button>
+</div>
+<div id="overlay" class="overlay"></div>
+
 <!-- Burbuja “Calcular talle” -->
 <div id="burbujaTalle">📏 Calcular Talle</div>
 
@@ -284,6 +345,12 @@
 
   const productosContainer = document.getElementById('productos');
   const miniCarrito = document.getElementById('mini-carrito');
+  const carritoPanel = document.getElementById('carritoPanel');
+  const cerrarCarrito = document.getElementById('cerrarCarrito');
+  const overlay = document.getElementById('overlay');
+  const carritoItems = document.getElementById('carritoItems');
+  const totalCarrito = document.getElementById('totalCarrito');
+  const btnEncargar = document.getElementById('btnEncargar');
   const notificaciones = document.getElementById('notificaciones');
 
   let carrito = [];
@@ -317,21 +384,75 @@
         alert('Seleccioná un talle antes de agregar al carrito');
         return;
       }
-      carrito.push({ ...prod, talle: talleSeleccionado });
+      const item = carrito.find(p => p.nombre === prod.nombre && p.talle === talleSeleccionado);
+      if (item) item.cantidad++;
+      else carrito.push({ ...prod, talle: talleSeleccionado, cantidad: 1 });
       actualizarMiniCarrito();
     });
   });
 
   function actualizarMiniCarrito() {
-    const total = carrito.reduce((acc, p) => acc + p.precio, 0);
+    const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
     miniCarrito.textContent = `${carrito.length} productos - $${total}`;
   }
 
+  // 🛒 Mini carrito abre panel
   miniCarrito.addEventListener('click', () => {
-    alert(`Tienes ${carrito.length} productos en el carrito.\nTotal: $${carrito.reduce((a,b)=>a+b.precio,0)}`);
+    actualizarCarrito();
+    carritoPanel.classList.add('abierto');
+    overlay.classList.add('visible');
   });
 
-  // Nombres aleatorios
+  cerrarCarrito.addEventListener('click', () => {
+    carritoPanel.classList.remove('abierto');
+    overlay.classList.remove('visible');
+  });
+  overlay.addEventListener('click', () => {
+    carritoPanel.classList.remove('abierto');
+    overlay.classList.remove('visible');
+  });
+
+  function actualizarCarrito() {
+    carritoItems.innerHTML = '';
+    carrito.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.classList.add('carrito-item');
+      div.innerHTML = `
+        <span>${item.nombre} (${item.talle})</span>
+        <div>
+          <button onclick="cambiarCantidad(${i}, -1)">−</button>
+          <span>${item.cantidad}</span>
+          <button onclick="cambiarCantidad(${i}, 1)">+</button>
+          <button onclick="eliminarItem(${i})">🗑️</button>
+        </div>`;
+      carritoItems.appendChild(div);
+    });
+    const total = carrito.reduce((a, i) => a + i.precio * i.cantidad, 0);
+    totalCarrito.textContent = `$${total.toLocaleString('es-AR')}`;
+  }
+
+  function cambiarCantidad(i, d) {
+    carrito[i].cantidad += d;
+    if (carrito[i].cantidad <= 0) carrito.splice(i, 1);
+    actualizarCarrito();
+    actualizarMiniCarrito();
+  }
+  function eliminarItem(i) {
+    carrito.splice(i, 1);
+    actualizarCarrito();
+    actualizarMiniCarrito();
+  }
+
+  btnEncargar.addEventListener('click', () => {
+    if (carrito.length === 0) return alert("Tu carrito está vacío.");
+    const tipo = document.querySelector('input[name="envio"]:checked').value;
+    const resumen = carrito.map(p => `${p.nombre} (${p.talle}) x${p.cantidad}`).join(', ');
+    const total = carrito.reduce((a, i) => a + i.precio * i.cantidad, 0);
+    const msg = encodeURIComponent(`Hola! Quiero encargar:\n${resumen}\n\nTotal: $${total.toLocaleString('es-AR')}\nTipo de entrega: ${tipo === 'retiro' ? 'Retiro en local (San Alberto 1336, San Vicente)' : 'Entrega a domicilio'}`);
+    window.open(`https://wa.me/5493518583166?text=${msg}`, '_blank');
+  });
+
+  // Notificaciones
   const nombres = ["Lucía", "Martín", "Valentina", "Tomás", "Agustina", "Julián", "Sofía", "Nicolás", "Camila", "Benjamín", "Milagros", "Lautaro", "Juana", "Mateo", "Lara", "Franco", "Rocío", "Facundo", "Ailén", "Gonzalo", "Micaela", "Thiago", "Florencia", "Ramiro", "Brenda", "Santiago", "Melina", "Leandro", "Daniela", "Lucas", "Ariana", "Ezequiel", "Pilar", "Mariano", "Noelia", "Juan", "Malena", "Luciano", "Carolina", "Diego"];
 
   function mostrarNotificacion() {
@@ -343,7 +464,6 @@
     div.classList.add('notificacion');
     div.textContent = `${nombre} ha encargado 1 remera ${color} talle ${talle}`;
     notificaciones.appendChild(div);
-
     setTimeout(() => div.remove(), 5000);
   }
 
@@ -352,4 +472,3 @@
 
 </body>
 </html>
-
