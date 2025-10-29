@@ -119,11 +119,12 @@
   .btn-agregar:hover { opacity: 0.85; }
 
   /* Mini carrito */
-  #mini-carrito {
+ #mini-carrito {
     position: fixed;
     bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 20px;        /* distancia desde el borde derecho */
+    left: auto;          /* desactiva la posición izquierda */
+    transform: none;     /* quita el translateX que lo centraba */
     background-color: #000;
     color: #fff;
     padding: 10px 22px;
@@ -133,6 +134,8 @@
     font-size: 14px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     transition: transform 0.3s ease;
+}
+
   }
 
   #mini-carrito:hover {
