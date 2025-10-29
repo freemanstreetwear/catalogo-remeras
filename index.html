@@ -271,6 +271,30 @@
 <!-- Burbuja “Calcular talle” -->
 <div id="burbujaTalle">📏 Calcular Talle</div>
 
+<style>
+  #burbujaTalle {
+    position: fixed;
+    left: 20px;          /* distancia desde el borde izquierdo */
+    bottom: 20px;        /* distancia desde el borde inferior */
+    background-color: #000;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 50px; /* burbuja redonda/ovalada */
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  /* Efecto hover para que "rebote" un poco */
+  #burbujaTalle:hover {
+    transform: scale(1.1);
+  }
+</style>
 
 <main>
   <h2>Remeras Lisas</h2>
@@ -509,7 +533,7 @@ document.addEventListener("DOMContentLoaded", function(){
   const widgetSeccion = document.getElementById("widgetTalleSeccion");
   const cerrar = document.getElementById("cerrarTalle");
   let visible = false;
-
+  
   // Animación hover burbuja
   burbuja.addEventListener("mouseover", ()=> burbuja.style.transform="scale(1.1)");
   burbuja.addEventListener("mouseout", ()=> burbuja.style.transform="scale(1)");
